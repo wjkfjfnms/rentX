@@ -1,0 +1,57 @@
+server:
+  port: 9090
+
+config:
+  swagger3:
+    flag: true
+
+# ===== 自定义swagger配置 ===== #
+swagger:
+  enable: true
+  application-name: ${spring.application.name}
+  application-version: 1.0
+  application-description: springfox swagger 3.0整合Demo
+  try-host: http://localhost:${server.port}
+
+spring:
+    datasource:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/lunarleasing?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=GMT%2B8
+      username: root
+      password: hxx11771177
+    mvc:
+      pathmatch:
+        matching-strategy: ant_path_matcher
+    mail:
+      host: smtp.qq.com
+      username: 2020480337@qq.com
+      password: egpgvsyrdvyrfcca
+      protocol: smtp
+      default-encoding: UTF-8
+      properties:
+        mail:
+          smtp:
+            auth: true
+            starttls:
+              enable: true
+              required: true
+            ssl:
+              enable: true
+    mybatis:
+      configuration:
+        map-underscore-to-camel-case: true
+
+#app:
+#  domain: localhost
+#  # 默认上传根路径
+#  upload-base-path: D:\website\rentx\upload
+#  # 图片访问根路径
+#  upload-base-url: /upload/
+#  # 图片前缀
+#  image-url-prefix: /public/upload
+#  jwt:
+#    subject: rentx
+#    secret: SXWYQjjNgLiLgcMrDZseIEvwbbdGmstBGBgmWFDFUPVXmBqzSDKjfczlQYgvRJoT
+#    # 48小时 8 * 3600 * 1000
+#    life: 172800000
+

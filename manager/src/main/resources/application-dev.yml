@@ -1,0 +1,53 @@
+server:
+  port: 9091
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/lunarleasing?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=GMT%2B8
+    username: root
+    password: hxx11771177
+app:
+  domain: localhost
+  # 默认上传根路径
+  upload-base-path: D:\website\rentx\upload
+  # 图片访问根路径
+  upload-base-url: /upload/
+  # 图片前缀
+  image-url-prefix: /public/upload
+  jwt:
+    subject: lunarleasing
+    secret: SXWYQjjNgLiLgcMrDZseIEvwbbdGmstBGBgmWFDFUPVXmBqzSDKjfczlQYgvRJoT
+    # 48小时 8 * 3600 * 1000
+    life: 172800000
+
+redisson:
+  transportMode: "NIO"
+  threads: 16
+  nettyThreads: 32
+  singleServerConfig:
+    address: "redis://127.0.0.1:6379"
+    username: null
+    password: 123456
+    database: 6
+    clientName: null
+
+    sslEnabled: false
+    sslKeystore: file:/path/to/ssl.p12
+    sslKeystorePassword: 123456
+    sslTruststore: file:/path/to/ssl.jks
+    sslTruststorePassword: 123456
+    sslEnableEndpointIdentification: false
+
+    idleConnectionTimeout: 10000
+    connectTimeout: 10000
+    timeout: 10000
+    retryAttempts: 3
+    retryInterval: 1500
+
+    subscriptionsPerConnection: 5
+    subscriptionConnectionMinimumIdleSize: 1
+    subscriptionConnectionPoolSize: 50
+    connectionMinimumIdleSize: 24
+    connectionPoolSize: 2048
+    dnsMonitoringInterval: 5000
