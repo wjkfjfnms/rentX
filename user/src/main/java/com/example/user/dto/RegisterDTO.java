@@ -3,6 +3,7 @@ package com.example.user.dto;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,6 +26,7 @@ public class RegisterDTO {
      */
     @ApiModelProperty(value="用户账号(邮箱)", dataType = "String", required = true)
     @NotEmpty(message = "用户名不可为空")
+    @Schema(example = "xxx@qq.com")
     private String email;
 
     /**
@@ -32,13 +34,15 @@ public class RegisterDTO {
      */
     @ApiModelProperty(value="验证码", dataType = "String", required = true)
     @NotEmpty(message = "验证码不可为空")
+    @Schema(example = "123456")
     private String code;
 
     /**
      * 密码
      */
-    @ApiModelProperty(value="密码", dataType = "String", required = true)
     @NotEmpty(message = "密码不可为空")
+    @Schema(example = "password123")
+    @ApiModelProperty(value="密码", dataType = "String", required = true)
     private String password;
 
     /**
@@ -51,6 +55,7 @@ public class RegisterDTO {
      * 身份（1：商家  2：租户）
      */
     @ApiModelProperty(value="身份（1：商家  2：租户）", dataType = "String", required = true)
+    @Schema(example = "1")
     private String role;
 
 }
