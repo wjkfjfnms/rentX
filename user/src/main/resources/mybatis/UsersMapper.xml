@@ -39,6 +39,13 @@
     values (#{email,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR}, #{salt,jdbcType=CHAR},#{role,jdbcType=VARCHAR})
   </insert>
 
+<!--  根据邮箱查询信息-->
+  <select id="selectByEmail" parameterType="string" resultType="com.example.user.vo.userVO">
+    select id,email,password,role
+    from users
+    where email=#{email}
+  </select>
+
 
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.example.user.po.Users" useGeneratedKeys="true">
     <!--@mbg.generated-->

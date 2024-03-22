@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+
+import java.io.Serializable;
 import java.util.Date;
 import lombok.Data;
 
@@ -14,7 +16,9 @@ import lombok.Data;
 @ApiModel(value="com-example-user-po-Users")
 @Data
 @TableName("users")
-public class Users {
+public class Users implements Serializable {
+    private static final long serialVersionUID = 4522943071576672084L;
+
     /**
     * 主键
     */
@@ -74,6 +78,6 @@ public class Users {
     /**
      * 身份
      */
-    @ApiModelProperty(value="身份")
+    @ApiModelProperty(value="身份（ADMIN/USER）")
     private String role;
 }

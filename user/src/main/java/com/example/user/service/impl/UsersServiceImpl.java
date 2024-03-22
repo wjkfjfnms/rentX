@@ -1,7 +1,6 @@
 package com.example.user.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.ArrayUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.user.constant.RedisConstant;
 import com.example.user.dto.CodeLoginDTO;
@@ -10,22 +9,15 @@ import com.example.user.dto.PasswordLoginDTO;
 import com.example.user.dto.RegisterDTO;
 import com.example.user.enums.HttpStatusEnum;
 import com.example.user.util.StringUtil;
+import com.example.user.util.TokenUtils;
 import com.example.user.vo.RE;
+import com.example.user.vo.userVO;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
-import javax.mail.MessagingException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-
 import com.example.user.po.Users;
 import com.example.user.dao.UsersMapper;
 import com.example.user.service.UsersService;
@@ -35,6 +27,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements UsersService{
+
+
+    @Resource
+    private TokenUtils tokenUtils;
 
     @Resource
     @Autowired
@@ -160,14 +156,17 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
         String salt = users.getSalt();
         // 重新设置条件 select id from users where email = #{email} and password #{password} limit 1
         QueryWrapper<Users> wrapper2 = new QueryWrapper<>();
-        wrapper2.select("id");
+        wrapper2.select("id","email","password","role");
         wrapper2.eq("email", email);
         wrapper2.eq("password", DigestUtils.md5Hex(password + salt));
         wrapper2.last("limit 1");
         // 查询用户
         users = this.baseMapper.selectOne(wrapper2);
-
-        return users == null ? RE.error(HttpStatusEnum.PASSWORD_ERROR) : RE.ok().data("id", users.getId());
+        Users users1= new Users();
+        userVO uv= usersMapper.selectByEmail(email);
+        users1.setEmail(uv.getEmail());
+        users1.setRole(uv.getRole());
+        return users == null ? RE.error(HttpStatusEnum.PASSWORD_ERROR) : RE.ok().data("token",tokenUtils.createToken(users1));
     }
 
     /**
@@ -195,7 +194,7 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
 
         // 构件条件对象 select id from users where email = #{email} limit 1
         QueryWrapper<Users> wrapper = new QueryWrapper<>();
-        wrapper.select("id");
+        wrapper.select("id","email","role");
         wrapper.eq("email", email);
         wrapper.last("limit 1");
 
@@ -216,7 +215,7 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
         // 删除验证码
         redisTemplate.delete(RedisConstant.EMAIL + email);
 
-        return RE.ok().data("id", users.getId());
+        return RE.ok().data("token",tokenUtils.createToken(users));
     }
 
     /**

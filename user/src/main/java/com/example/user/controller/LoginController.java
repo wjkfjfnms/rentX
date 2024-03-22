@@ -10,12 +10,13 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
-@RequestMapping(value = "/user")
+@RequestMapping(value = "/api/user")
 @Api(tags = {"登录注册接口"})
 public class LoginController {
 
@@ -63,4 +64,17 @@ public class LoginController {
     public RE sendEmailCode(@RequestBody GetEmailCodeDTO getEmailCodeDTO) {
         return commonService.sendEmailCode(getEmailCodeDTO);
     }
+
+//    /** 这是管理员用户才可以看到 */
+//    @PostMapping(value = "/admin")
+//    @PreAuthorize("hasRole('ADMIN')")
+//    public String admin() {
+//        return "这个消息只有管理员用户才可以看到";
+//    }
+//
+//    /** 这是登录用户才可以看到的内容 */
+//    @PostMapping(value = "/message")
+//    public String message() {
+//        return "这个消息只有登录用户才可以看到";
+//    }
 }
