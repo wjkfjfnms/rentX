@@ -154,7 +154,7 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
 
         // 获取加密盐
         String salt = users.getSalt();
-        // 重新设置条件 select id from users where email = #{email} and password #{password} limit 1
+        // 重新设置条件 select id,email,password,role from users where email = #{email} and password #{password} limit 1
         QueryWrapper<Users> wrapper2 = new QueryWrapper<>();
         wrapper2.select("id","email","password","role");
         wrapper2.eq("email", email);
