@@ -39,9 +39,11 @@ public class TokenFilter extends OncePerRequestFilter {
         // Token 开头部分 默认 Bearer 开头
         String bearer = "Bearer ";
         if (authorizationValue != null && authorizationValue.startsWith(bearer)) {
-            // token
+            // 解析 HTTP 请求中的 Authorization 头，提取出其中的 JWT Token 部分
             String token = authorizationValue.substring(bearer.length());
+            //获取token中的信息
             Users sysUser = tokenUtils.validationToken(token);
+//            System.out.println("Tokenfilter46:"+sysUser);
             if (sysUser != null) {
                 // Spring Security 角色名称默认使用 "ROLE_" 开头
                 // authorities.add 可以增加多个用户角色，对于一个用户有多种角色的系统来说，
@@ -50,9 +52,11 @@ public class TokenFilter extends OncePerRequestFilter {
                 authorities.add(new SimpleGrantedAuthority("ROLE_" + sysUser.getRole()));
                 // 传入用户名、用户密码、用户角色。 这里的密码随便写的，用不上
                 UserDetails userDetails = new User(sysUser.getEmail(), "password", authorities);
+                System.out.println("Tokenfilter54:"+userDetails);
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());
                 authentication.setDetails(userDetails.getUsername());
+                System.out.println("Tokenfilter56:"+authentication);
                 // 授权
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }

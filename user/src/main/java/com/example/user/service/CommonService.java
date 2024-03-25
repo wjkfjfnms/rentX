@@ -18,5 +18,12 @@ public interface CommonService {
      * @return
      */
     RE sendEmailCode(GetEmailCodeDTO getEmailCodeDTO);
+
+    /**
+     * 获取token里的id
+     * @param
+     * @return id
+     */
+    String getTokenNickname();
 }
 

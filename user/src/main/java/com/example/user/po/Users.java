@@ -32,11 +32,6 @@ public class Users implements Serializable {
     @ApiModelProperty(value="用户账号(邮箱)")
     private String email;
 
-    /**
-    * 用户姓名
-    */
-    @ApiModelProperty(value="用户姓名")
-    private String name;
 
     /**
     * 密码
@@ -80,4 +75,10 @@ public class Users implements Serializable {
      */
     @ApiModelProperty(value="身份（ADMIN/USER）")
     private String role;
+
+    /**
+     * 昵称（10个字以内)
+     */
+    @ApiModelProperty(value="昵称（10个字以内)")
+    private String nickname;
 }

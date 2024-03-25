@@ -162,11 +162,13 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
         wrapper2.last("limit 1");
         // 查询用户
         users = this.baseMapper.selectOne(wrapper2);
-        Users users1= new Users();
-        userVO uv= usersMapper.selectByEmail(email);
-        users1.setEmail(uv.getEmail());
-        users1.setRole(uv.getRole());
-        return users == null ? RE.error(HttpStatusEnum.PASSWORD_ERROR) : RE.ok().data("token",tokenUtils.createToken(users1));
+        System.out.println(users);
+//        Users users1= new Users();
+//        userVO uv= usersMapper.selectByEmail(email);
+//        users1.setEmail(uv.getEmail());
+//        users1.setRole(uv.getRole());
+//        System.out.println(users1);
+        return users == null ? RE.error(HttpStatusEnum.PASSWORD_ERROR) : RE.ok().data("token",tokenUtils.createToken(users));
     }
 
     /**

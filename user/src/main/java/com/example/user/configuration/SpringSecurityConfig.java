@@ -61,7 +61,12 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         // 允许发送权限码 发送邮件 登录 注册 接口文档的 api 的无授权访问，其他需要授权访问
         httpSecurity.authorizeRequests()
-                .antMatchers("/api/user/passwordLogin", "/api/user/register", "/api/user/codeLogin", "/api/user/findPassword", "/api/user/getRequestPermissionCode", "/api/user/sendEmailCode","/doc.html","/swagger-ui.html","/swagger-resources/**","/webjars/**","/v3/api-docs")
+                .antMatchers("/api/user/**",
+                        "/doc.html",
+                        "/swagger-ui.html",
+                        "/swagger-resources/**",
+                        "/webjars/**",
+                        "/v3/api-docs")
                 .permitAll().anyRequest().authenticated();
         // 添加拦截器
         httpSecurity.addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class);

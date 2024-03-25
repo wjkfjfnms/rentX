@@ -2,17 +2,24 @@ package com.example.user.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.example.user.constant.RedisConstant;
+import com.example.user.dao.UsersMapper;
 import com.example.user.dto.GetEmailCodeDTO;
 import com.example.user.enums.HttpStatusEnum;
 import com.example.user.service.CommonService;
 import com.example.user.util.StringUtil;
+import com.example.user.util.TokenUtils;
 import com.example.user.vo.RE;
+import com.example.user.vo.userVO;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -24,6 +31,12 @@ public class CommonServiceImpl implements CommonService {
 
     @Autowired
     private ThreadService threadService;
+
+    @Autowired
+    TokenUtils tokenUtils;
+
+    @Autowired
+    UsersMapper usersMapper;
 
     @Override
     public RE getRequestPermissionCode(String emailJson) {
@@ -88,6 +101,24 @@ public class CommonServiceImpl implements CommonService {
         // 丢入缓存，设置5分钟过期
         redisTemplate.opsForValue().set(RedisConstant.EMAIL + email, code, RedisConstant.EXPIRE_FIVE_MINUTE, TimeUnit.SECONDS);
         return RE.ok();
+    }
+
+    @Override
+    public String getTokenNickname() {
+        // 获取当前的认证信息
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        userVO user = null;
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            String email = userDetails.getUsername();
+            user = usersMapper.selectByEmail(email);
+            System.out.println("当前用户ID: " + user.getId());
+            System.out.println("当前用户昵称: " + user.getNickname());
+        } else {
+            System.out.println("无法获取用户ID");
+        }
+        return user.getNickname();
     }
 }
 

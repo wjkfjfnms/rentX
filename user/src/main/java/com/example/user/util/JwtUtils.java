@@ -9,13 +9,16 @@ import org.springframework.util.StringUtils;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
+/**
+ * @author 欣欣
+ */
 public class JwtUtils {
     //常量
     public static final long EXPIRE = 1000 * 60 * 60 * 24; //token过期时间, 这里设置的是一天的有效时间
     public static final String APP_SECRET = "ukc8BDbRigUDaY6pZFfWus2jZWLPHO"; //秘钥，自己随便设
 
     //生成token字符串的方法
-    public static String getJwtToken(Long id, String nickname){
+    public static String getJwtToken(Long id, String email){
 
         String JwtToken = Jwts.builder()
                 // JWT的头信息
@@ -29,7 +32,7 @@ public class JwtUtils {
 
                 // 数据库中的字段
                 .claim("id", id)  //设置token主体部分 ，存储用户信息
-                .claim("nickname", nickname)
+                .claim("email", email)
 
                 // 签名哈希
                 .signWith(SignatureAlgorithm.HS256, APP_SECRET)
@@ -44,7 +47,9 @@ public class JwtUtils {
      * @return
      */
     public static boolean checkToken(String jwtToken) {
-        if(StringUtils.isEmpty(jwtToken)) return false;
+        if(StringUtils.isEmpty(jwtToken)) {
+            return false;
+        }
         try {
             Jwts.parser().setSigningKey(APP_SECRET).parseClaimsJws(jwtToken);
         } catch (Exception e) {
@@ -62,7 +67,9 @@ public class JwtUtils {
     public static boolean checkToken(HttpServletRequest request) {
         try {
             String jwtToken = request.getHeader("token");
-            if(StringUtils.isEmpty(jwtToken)) return false;
+            if(StringUtils.isEmpty(jwtToken)) {
+                return false;
+            }
             Jwts.parser().setSigningKey(APP_SECRET).parseClaimsJws(jwtToken);
         } catch (Exception e) {
             e.printStackTrace();

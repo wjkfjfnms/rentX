@@ -13,7 +13,7 @@ import java.util.Date;
 public class TokenUtils implements Serializable {
     private static final long serialVersionUID = -3L;
     /**
-     * Token 有效时长
+     * Token 有效时长7天
      */
     private static final Long EXPIRATION = 604800L;
 
@@ -37,10 +37,13 @@ public class TokenUtils implements Serializable {
                     .setIssuedAt(new Date())
                     // 通过 claim 方法设置一个 key = role，value = userRole 的值
                     .claim("role", users.getRole())
+                    .claim("id", users.getId())
                     // 设置加密密钥和加密算法，注意要用私钥加密且保证私钥不泄露
                     .signWith(RsaUtils.getPrivateKey(), SignatureAlgorithm.RS256)
                     .compact();
-            System.out.println(token);
+//            System.out.println(token);
+            Boolean boo=this.checkAdminRole(token);
+//            System.out.println("结果："+boo);
             return String.format("Bearer %s", token);
         } catch (Exception e) {
             e.printStackTrace(); // 打印异常信息
@@ -66,12 +69,34 @@ public class TokenUtils implements Serializable {
                 return null;
             }
             Users sysUser = new Users();
+//            System.out.println(claims);
             sysUser.setEmail(claims.getAudience());
             sysUser.setRole(claims.get("role").toString());
+            sysUser.setId(Long.valueOf(claims.get("id").toString()));
+//            System.out.println(claims.get("role").toString());
+//            System.out.println(Long.valueOf(claims.get("id").toString()));
             return sysUser;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public boolean checkAdminRole(String token) {
+        try {
+            Claims claims = Jwts.parserBuilder()
+                    .setSigningKey(RsaUtils.getPublicKey())
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+
+            String role = (String) claims.get("role");
+            if (role != null && role.equals("ADMIN")) {
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // 打印异常信息
+        }
+        return false;
     }
 }

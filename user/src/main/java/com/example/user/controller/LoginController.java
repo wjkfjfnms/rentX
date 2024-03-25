@@ -65,12 +65,7 @@ public class LoginController {
         return commonService.sendEmailCode(getEmailCodeDTO);
     }
 
-//    /** 这是管理员用户才可以看到 */
-//    @PostMapping(value = "/admin")
-//    @PreAuthorize("hasRole('ADMIN')")
-//    public String admin() {
-//        return "这个消息只有管理员用户才可以看到";
-//    }
+
 //
 //    /** 这是登录用户才可以看到的内容 */
 //    @PostMapping(value = "/message")

@@ -1,0 +1,67 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>WebSocket Chat Demo</title>
+</head>
+
+<body>
+<input id="inputContent" type="text" style="width:600px;"/>
+<button onclick="send()">Send</button>
+<button onclick="closeConnection()">Close</button>
+<div id="msg"></div>
+</body>
+
+<script type="text/javascript">
+
+    var websocket = null;
+
+    //声明自己搭建的websocket服务
+    if ('WebSocket' in window) {
+        var random = parseInt(Math.random() * 1000000) + "";
+        websocket = new WebSocket("ws://localhost:9090/api/chat/"+ random);
+    } else {
+        alert('Not support websocket')
+    }
+
+    //连接发生错误的回调方法
+    websocket.onerror = function() {
+        setMessageInnerHTML("error");
+    };
+
+    //连接成功建立的回调方法
+    websocket.onopen = function(event) {
+        setMessageInnerHTML("open");
+    }
+
+    //接收到消息的回调方法
+    websocket.onmessage = function(event) {
+        setMessageInnerHTML(event.data);
+    }
+
+    //连接关闭的回调方法
+    websocket.onclose = function() {
+        setMessageInnerHTML("close");
+    }
+
+    //监听窗口关闭事件，当窗口关闭时关闭对应websocket连接
+    window.onbeforeunload = function() {
+        websocket.close();
+    }
+
+    //将消息回显在页面上
+    function setMessageInnerHTML(innerHTML) {
+        document.getElementById('msg').innerHTML += innerHTML + '<br/>';
+    }
+
+    //关闭连接
+    function closeConnection() {
+        websocket.close();
+    }
+
+    //发送消息
+    function send() {
+        var msg = document.getElementById('inputContent').value;
+        websocket.send(msg);
+    }
+</script>
+</html>

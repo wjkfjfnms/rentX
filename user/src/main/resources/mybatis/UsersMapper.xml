@@ -6,7 +6,6 @@
     <!--@Table users-->
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="email" jdbcType="VARCHAR" property="email" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="salt" jdbcType="VARCHAR" property="salt" />
     <result column="sex" jdbcType="VARCHAR" property="sex" />
@@ -14,10 +13,11 @@
     <result column="touxiang" jdbcType="VARCHAR" property="touxiang" />
     <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
     <result column="role" jdbcType="VARCHAR" property="role" />
+    <result column="nickname" jdbcType="VARCHAR" property="nickname" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    id, `email`, `name`, `password`, `salt`, sex, phone, touxiang, createtime, role
+    id, `email`, `password`, `salt`, sex, phone, touxiang, createtime, role ,nickname
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--@mbg.generated-->
@@ -41,7 +41,7 @@
 
 <!--  根据邮箱查询信息-->
   <select id="selectByEmail" parameterType="string" resultType="com.example.user.vo.userVO">
-    select id,email,password,role
+    select id,email,password,role,nickname
     from users
     where email=#{email}
   </select>
@@ -53,9 +53,6 @@
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="email != null">
         `email`,
-      </if>
-      <if test="name != null">
-        `name`,
       </if>
       <if test="password != null">
         `password`,
@@ -76,9 +73,6 @@
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="email != null">
         #{email,jdbcType=VARCHAR},
-      </if>
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
       </if>
       <if test="password != null">
         #{password,jdbcType=VARCHAR},
@@ -104,9 +98,6 @@
       <if test="email != null">
         `email` = #{email,jdbcType=VARCHAR},
       </if>
-      <if test="name != null">
-        `name` = #{name,jdbcType=VARCHAR},
-      </if>
       <if test="password != null">
         `password` = #{password,jdbcType=VARCHAR},
       </if>
@@ -129,7 +120,6 @@
     <!--@mbg.generated-->
     update users
     set `email` = #{email,jdbcType=VARCHAR},
-      `name` = #{name,jdbcType=VARCHAR},
       `password` = #{password,jdbcType=VARCHAR},
       sex = #{sex,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
