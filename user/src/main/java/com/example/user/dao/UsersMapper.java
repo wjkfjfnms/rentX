@@ -32,6 +32,13 @@ public interface UsersMapper extends BaseMapper<Users> {
     userVO selectByEmail(String email);
 
     /**
+     * 根据token里的邮箱获取用户信息
+     * @param
+     * @return id, email, password, sex, phone, touxiang, createtime, role ,nickname
+     */
+    Users selectDetailsByEmail(String email);
+
+    /**
      * insert record to table selective
      * @param record the record
      * @return insert count

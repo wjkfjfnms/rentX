@@ -2,6 +2,7 @@ package com.example.user.controller;
 
 import com.baomidou.mybatisplus.extension.api.R;
 import com.example.user.dto.*;
+import com.example.user.po.Users;
 import com.example.user.service.CommonService;
 import com.example.user.service.UsersService;
 import com.example.user.vo.RE;
@@ -63,6 +64,12 @@ public class LoginController {
     @PostMapping("code/sendEmailCode")
     public RE sendEmailCode(@RequestBody GetEmailCodeDTO getEmailCodeDTO) {
         return commonService.sendEmailCode(getEmailCodeDTO);
+    }
+
+    @ApiOperation(value = "获取当前登录用户的信息接口")
+    @PostMapping("code/getUsersDetails")
+    public RE getUsersDetails(){
+        return RE.ok().data("Users",commonService.getUsersDetails());
     }
 
 

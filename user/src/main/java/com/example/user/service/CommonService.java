@@ -1,6 +1,7 @@
 package com.example.user.service;
 
 import com.example.user.dto.GetEmailCodeDTO;
+import com.example.user.po.Users;
 import com.example.user.vo.RE;
 
 public interface CommonService {
@@ -20,10 +21,17 @@ public interface CommonService {
     RE sendEmailCode(GetEmailCodeDTO getEmailCodeDTO);
 
     /**
-     * 获取token里的id
+     * 根据token里的邮箱获取昵称
      * @param
-     * @return id
+     * @return nickname
      */
     String getTokenNickname();
+
+    /**
+     * 根据token里的邮箱获取用户信息
+     * @param
+     * @return id, email, password, sex, phone, touxiang, createtime, role ,nickname
+     */
+    Users getUsersDetails();
 }
 

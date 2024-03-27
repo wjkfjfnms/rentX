@@ -41,9 +41,10 @@ public class TokenFilter extends OncePerRequestFilter {
         if (authorizationValue != null && authorizationValue.startsWith(bearer)) {
             // 解析 HTTP 请求中的 Authorization 头，提取出其中的 JWT Token 部分
             String token = authorizationValue.substring(bearer.length());
+            System.out.println("Tokenfilter43:"+token);
             //获取token中的信息
             Users sysUser = tokenUtils.validationToken(token);
-//            System.out.println("Tokenfilter46:"+sysUser);
+            System.out.println("Tokenfilter46:"+sysUser);
             if (sysUser != null) {
                 // Spring Security 角色名称默认使用 "ROLE_" 开头
                 // authorities.add 可以增加多个用户角色，对于一个用户有多种角色的系统来说，

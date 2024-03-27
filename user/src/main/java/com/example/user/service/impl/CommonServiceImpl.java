@@ -6,6 +6,7 @@ import com.example.user.constant.RedisConstant;
 import com.example.user.dao.UsersMapper;
 import com.example.user.dto.GetEmailCodeDTO;
 import com.example.user.enums.HttpStatusEnum;
+import com.example.user.po.Users;
 import com.example.user.service.CommonService;
 import com.example.user.util.StringUtil;
 import com.example.user.util.TokenUtils;
@@ -15,6 +16,8 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -61,7 +64,7 @@ public class CommonServiceImpl implements CommonService {
             return RE.ok().data("permissionCode", permissionCode);
         } catch (JSONException e) {
             // 捕获 FastJSON 解析异常
-            System.out.println("FastJSON 解析异常: " +e.getMessage());
+            System.out.println("FastJSON 解析异常: " + e.getMessage());
             return RE.error();
         }
     }
@@ -99,10 +102,10 @@ public class CommonServiceImpl implements CommonService {
         // 参数校验
         if (StringUtils.isAnyBlank(email, permissionCode)) {
             return RE.error(HttpStatusEnum.PARAM_ILLEGAL);
-        }else if (!StringUtil.checkEmail(email)) {
+        } else if (!StringUtil.checkEmail(email)) {
             // 邮箱校验
             return RE.error(HttpStatusEnum.EMAIL_ERROR);
-        }else {
+        } else {
             // 权限码比对
             String rightCode = redisTemplate.opsForValue().get(RedisConstant.EMAIL_REQUEST_VERIFY + email);
             if (!permissionCode.equals(rightCode)) {
@@ -143,9 +146,38 @@ public class CommonServiceImpl implements CommonService {
             System.out.println("当前用户ID: " + user.getId());
             System.out.println("当前用户昵称: " + user.getNickname());
         } else {
-            System.out.println("无法获取用户ID");
+            System.out.println("当前认证信息为空");
         }
         return user.getNickname();
     }
+
+    @Override
+    public Users getUsersDetails() {
+        // 获取当前的认证信息
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Users users = null;
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            System.out.println("authentication:" + authentication);
+            UserDetails userDetails = null;
+            try {
+                userDetails = (UserDetails) authentication.getPrincipal();
+            } catch (ClassCastException e) {
+                // 处理类型转换异常
+                e.printStackTrace();
+            }
+            String email = userDetails.getUsername();
+            if (email!=null){
+                // 获取当前用户的用户名
+                users = usersMapper.selectDetailsByEmail(email);
+            }else {
+                System.out.println("获取当前登录用户的账号失败");
+            }
+
+        } else {
+            System.out.println("当前认证信息为空");
+        }
+        return users;
+    }
 }
+
 

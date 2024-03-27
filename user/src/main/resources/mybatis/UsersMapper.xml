@@ -7,7 +7,6 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="password" jdbcType="VARCHAR" property="password" />
-    <result column="salt" jdbcType="VARCHAR" property="salt" />
     <result column="sex" jdbcType="VARCHAR" property="sex" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="touxiang" jdbcType="VARCHAR" property="touxiang" />
@@ -17,7 +16,7 @@
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    id, `email`, `password`, `salt`, sex, phone, touxiang, createtime, role ,nickname
+    id, email, password, sex, phone, touxiang, createtime, role ,nickname
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--@mbg.generated-->
@@ -43,9 +42,17 @@
   <select id="selectByEmail" parameterType="string" resultType="com.example.user.vo.userVO">
     select id,email,password,role,nickname
     from users
-    where email=#{email}
+    where email=#{email} and state = 0
   </select>
 
+<!--  根据邮箱获取用户信息-->
+  <select id="selectDetailsByEmail" parameterType="string" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from users
+    where email = #{email,jdbcType=VARCHAR}
+  </select>
 
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.example.user.po.Users" useGeneratedKeys="true">
     <!--@mbg.generated-->

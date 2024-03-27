@@ -69,12 +69,13 @@ public class TokenUtils implements Serializable {
                 return null;
             }
             Users sysUser = new Users();
-//            System.out.println(claims);
+            System.out.println(claims);
             sysUser.setEmail(claims.getAudience());
             sysUser.setRole(claims.get("role").toString());
-            sysUser.setId(Long.valueOf(claims.get("id").toString()));
+//            sysUser.setId(Long.valueOf(claims.get("id").toString()));
 //            System.out.println(claims.get("role").toString());
-//            System.out.println(Long.valueOf(claims.get("id").toString()));
+//            System.out.println("id"+Long.valueOf(claims.get("id").toString()));
+            System.out.println("sysUser:"+sysUser);
             return sysUser;
         } catch (Exception e) {
             e.printStackTrace();
