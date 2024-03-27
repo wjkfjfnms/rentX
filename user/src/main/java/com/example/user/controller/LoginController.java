@@ -55,7 +55,7 @@ public class LoginController {
     @ApiOperation(value = "权限码请求接口")
     @PostMapping("code/getRequestPermissionCode")
     public RE getRequestPermissionCode(@RequestBody QuanxianmaDTO quanxianmaDTO) {
-        return commonService.getRequestPermissionCode(quanxianmaDTO.getEmailJson());
+        return commonService.getRequestPermissionCode(quanxianmaDTO.getEmail());
     }
 
 

@@ -1,6 +1,7 @@
 package com.example.user.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONException;
 import com.example.user.constant.RedisConstant;
 import com.example.user.dao.UsersMapper;
 import com.example.user.dto.GetEmailCodeDTO;
@@ -18,8 +19,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.Resource;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -40,25 +39,53 @@ public class CommonServiceImpl implements CommonService {
 
     @Override
     public RE getRequestPermissionCode(String emailJson) {
-        // 非空校验
-        if (StringUtils.isBlank(emailJson)) {
-            return RE.error(HttpStatusEnum.PARAM_ILLEGAL);
+        try {
+            // 非空校验
+            if (StringUtils.isBlank(emailJson)) {
+                return RE.error(HttpStatusEnum.PARAM_ILLEGAL);
+            }
+
+            // JSON转换，提取email的值
+            String email = emailJson;
+//            String email = JSON.parseObject(emailJson).getString("emailJson").trim();
+            // 邮箱校验
+            if (!StringUtil.checkEmail(email)) {
+                return RE.error(HttpStatusEnum.EMAIL_ERROR);
+            }
+
+            // 随机生成权限码
+            String permissionCode = UUID.randomUUID().toString();
+
+            // 存入redis，缓存10s
+            redisTemplate.opsForValue().set(RedisConstant.EMAIL_REQUEST_VERIFY + email, permissionCode, RedisConstant.EXPIRE_TEN_SECOND, TimeUnit.SECONDS);
+            return RE.ok().data("permissionCode", permissionCode);
+        } catch (JSONException e) {
+            // 捕获 FastJSON 解析异常
+            System.out.println("FastJSON 解析异常: " +e.getMessage());
+            return RE.error();
         }
-
-        // JSON转换，提取email的值
-        String email = JSON.parseObject(emailJson).getString("email").trim();
-        // 邮箱校验
-        if (!StringUtil.checkEmail(email)) {
-            return RE.error(HttpStatusEnum.EMAIL_ERROR);
-        }
-
-        // 随机生成权限码
-        String permissionCode = UUID.randomUUID().toString();
-
-        // 存入redis，缓存10s
-        redisTemplate.opsForValue().set(RedisConstant.EMAIL_REQUEST_VERIFY + email, permissionCode, RedisConstant.EXPIRE_TEN_SECOND, TimeUnit.SECONDS);
-        return RE.ok().data("permissionCode", permissionCode);
     }
+//    @Override
+//    public RE getRequestPermissionCode(String emailJson) {
+//        // 非空校验
+//        if (StringUtils.isBlank(emailJson)) {
+//            return RE.error(HttpStatusEnum.PARAM_ILLEGAL);
+//        }
+//
+//        // JSON转换，提取email的值
+//        String email = JSON.parseObject(emailJson).getString("email").trim();
+//        // 邮箱校验
+//        if (!StringUtil.checkEmail(email)) {
+//            return RE.error(HttpStatusEnum.EMAIL_ERROR);
+//        }
+//
+//        // 随机生成权限码
+//        String permissionCode = UUID.randomUUID().toString();
+//
+//        // 存入redis，缓存10s
+//        redisTemplate.opsForValue().set(RedisConstant.EMAIL_REQUEST_VERIFY + email, permissionCode, RedisConstant.EXPIRE_TEN_SECOND, TimeUnit.SECONDS);
+//        return RE.ok().data("permissionCode", permissionCode);
+//    }
 
     @Override
     public RE sendEmailCode(GetEmailCodeDTO getEmailCodeDTO) {

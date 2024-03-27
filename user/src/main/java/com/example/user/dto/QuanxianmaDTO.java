@@ -11,5 +11,5 @@ public class QuanxianmaDTO {
      */
     @ApiModelProperty(value="权限码", dataType = "String", required = true)
     @Schema(example = "xxxxx")
-    private String emailJson;
+    private String email;
 }
