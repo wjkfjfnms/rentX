@@ -51,7 +51,7 @@
     select
     <include refid="Base_Column_List" />
     from users
-    where email = #{email,jdbcType=VARCHAR}
+    where email = #{email,jdbcType=VARCHAR} and state = 0
   </select>
 
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.example.user.po.Users" useGeneratedKeys="true">
