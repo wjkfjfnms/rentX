@@ -1,6 +1,5 @@
 package com.example.user.vo;
 
-import com.example.user.po.Goodsdetail;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -72,4 +71,16 @@ public class GoodsVO {
      */
     @ApiModelProperty(value="商品详情图片")
     private List<GoodsDetailVO> goodsDetailVOList;
+
+    /**
+     * 成色
+     */
+    @ApiModelProperty(value="成色")
+    private List<QualityVO> qualityVOList;
+
+    /**
+     * 套餐
+     */
+    @ApiModelProperty(value="套餐")
+    private List<ComboVO> comboVOList;
 }

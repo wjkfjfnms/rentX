@@ -17,6 +17,14 @@
       <id column="gdid" jdbcType="INTEGER" property="id" />
       <result column="address" jdbcType="VARCHAR" property="address" />
     </collection>
+    <collection property="qualityVOList" ofType="com.example.user.vo.QualityVO">
+      <id column="qid" jdbcType="INTEGER" property="id" />
+      <result column="quality" jdbcType="VARCHAR" property="quality" />
+    </collection>
+    <collection property="comboVOList" ofType="com.example.user.vo.ComboVO">
+      <id column="cid" jdbcType="INTEGER" property="id" />
+      <result column="combo" jdbcType="VARCHAR" property="combo" />
+    </collection>
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
@@ -25,10 +33,12 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     <!--@mbg.generated-->
     SELECT
-    g.id, g.category, g.brand, g.goodsName, g.description, g.price, g.buyout, g.buyoutPrice, g.goodsPicture, gd.address , gd.id gdid
+    g.id, g.category, g.brand, g.goodsName, g.description, g.price, g.buyout, g.buyoutPrice, g.goodsPicture, gd.address , gd.id gdid, q.id qid,q.quality,c.id cid,combo
     FROM
     goods g
     JOIN goodsdetail gd ON g.id = gd.goodsId
+    JOIN quality q ON g.id = q.goodsId
+    JOIN combo c ON g.id = c.goodsId
     WHERE
     g.id = #{id,jdbcType=INTEGER} and g.state = 0
   </select>

@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/api/goods")
 @Api(tags = {"商品接口"})
 public class GoodsController {
-
     @Autowired
     GoodsService goodsService;
 
