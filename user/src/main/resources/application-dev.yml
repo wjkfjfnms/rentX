@@ -40,6 +40,24 @@ spring:
     mybatis:
       configuration:
         map-underscore-to-camel-case: true
+      # 支付配置
+    alipay:
+      appId: 9021000135674613
+      # 支付宝公钥和私钥
+      appPrivateKey: MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDuwtl5lLpNoDT5+zieuFcT6jjZHWfPBfRoO+7ezZYUeyO3uPiYmitUFIKMcyfnF0Sf0PPlk7F9CcCaWa8981M1MyNd9sRIwZ3rBqH8S1U/WE57hFpCqYok1imSoN7YqXCCATeytrM24w45nIf9oprEtdnC2b0QRNKbjjlNRQ6nLoCERb1zZSVyKcfzFGeWRuyR/S9qanjVbwd70/lrkLK2FROX7hOiSVSBgf3p/WTvJzqAVymzpVMa7GG5dCfvQGJBff9OeFko+IaZ6dpUdGfUJCQojFHZ8C7yyGq0pt8zAQCEBgTBP/KU8KLOFHEhVb3+2CvBnUEbdlJZSXhXxx+dAgMBAAECggEAd4VU5pb8ODW1r1oCOvoepRqAALfGqozZj4BJEIGr2m7WL3dKAuJSRFHMFFDlLbqpILOyFD+9/tDt+JZisklnYt9JmhUYpy89RVTZq/luIDqtdwmHQY2rWMtYnk0noSAY8Qt4/V6WEijRiyd/sAlBHq3F59Ol4EoDf9lPeA3Uyvz1sXb0L+YQGQVkZcyxXsrCbN4G6CjyA8JxY8P/xvDL6yseJIWyR+ZzMWAHurOm6hiDHEb3vbcbTRAs62yAi8+oUYfRpNvhb1x0BwnG8NaN9RruaLqdN5q8An1NbA+XezyqDdAeDXEkDKkZQOlM+s14YQbfD6/U/Y8AligQagUIAQKBgQD/lYksJTaZiaSgZt2EnIGuDlUEH05RPXPKPLpOuWxSB3H9IG9QlM4PwRCz7MYWOA4Srs8ggTHcMgxGuUzQGvFlyQNW418eta6PY5Tg40/n81r0GqcCSs6WIQ/ssoQMigevLsDCkhZkz7u7M9oeyh1QsiK9J2YBPEgywlSbhwJFnQKBgQDvJk5XlhAlLaccXT0ExIE2zsBiXfS1Q2gXyBklxMOOdsIKaeM61crGV07gQ/b9FHnZ8a4VkVDda01puveUcTbFltMjHFwrd17yCuyXSdF9lCrBTFI+eeYpsyEwSRctH8DV9ef44GEr13ENcq1DiYYzPWeYJHFY0MyFCbqXbb4iAQKBgDPXM+yVW77G0XKLitD0IcWZOJtOckc+LLdPnAaNy6/TvMY4BvwUQrulUGr+Uqt9ETWu6WpRajicmiraOP9ZB6+6lwfPtKJ4/YAuFauLz9BfZwpuQYPQgpim+iDrkKcudCKPXB/bG9m03QI6oTpvioSsrSkqzaDghlBtZFXri4VtAoGACF/oCGsp35NssbKWK2+SMtAkro0pv5s/ru2D6+2rB3cjLmgs2+eWtUFjcrkOkihAaCBtfzXahhZ23If+mYUpbNvuQuGAXMlOWt2FEXs1SdeBc8lva96q77TlKaK1nA/rmdKFsBJzdKyTuevVI3NSbsLsuMg16+1L7DC+BwWBzgECgYEAgc0g+Cw+yQdrFKHOlm4G0BtU2+fNO6gykvIi2vp4Y9Fopc8+XqojWjSNtxDxt+gTq6/oEDRov1W5EXtTT5MLPqWVsk6CIr4QS4tcJN2sWEsICOgU8w5j2+ac51jYa5JaQqiJ9GIgW7pjpMoMbYrCuQP4M8cOg6ZD233RqaFS2gk=
+      alipayPublicKey=: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjf3sFLBqYk4kImq8ed7DGL7rklSKpkC7r/EgGjulPzXqOblHEoreu6Kvd65+eaTqkBtbBvLSDYh0I7PMUqY0cCaihIOCbp1kL5nvSFKAfHA2mYAjJS42nf6zutm8yLJ/FfY+B+j6XPkcSRLQbRTB5/cjnv1OXyPG7C1LvUpWFnqPq8CkPhkphG+yyQ31jJmOWDM9hjKOQCPOow2xE8Pi1SqxpAPoqaHFP9WB2WNVaXSOhl28y1DSUB+2txCGqMSB1wa+20+zXeIvJMnOE3INCDS10rlyspr8f8PpE+63jT+k45xxiMSDg0oj7PHSoaYDJbYjiOS5+js4xUpqi1GQxwIDAQAB
+      # 字符设置
+      charset: UTF-8
+      # 格式
+      format: JSON
+      # 网关url和自己对应上图的一致
+      gatewayUrl: https://openapi-sandbox.dl.alipaydev.com/gateway.do
+      # 签名类型
+      signType: RSA2
+      # 支付成功的重定向与接口回调 跳转至支付成功页面
+      #跳前端支付完成页面
+      returnUrl: http://localhost:8081/#/index
+      notifyUrl: http://95scdh.natappfree.cc/notify
 
 #app:
 #  domain: localhost
