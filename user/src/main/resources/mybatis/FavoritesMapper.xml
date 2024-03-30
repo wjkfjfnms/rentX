@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.user.dao.FavoritesMapper">
+  <resultMap id="BaseResultMap" type="com.example.user.po.Favorites">
+    <!--@mbg.generated-->
+    <!--@Table favorites-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="goodsId" jdbcType="INTEGER" property="goodsId" />
+    <result column="userId" jdbcType="INTEGER" property="userId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, goodsId, userId
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from favorites
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <resultMap id="PageResultMap" type="com.example.user.vo.FavoritesVO">
+    <!--@mbg.generated-->
+    <!--@Table favorites-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="goodsId" jdbcType="INTEGER" property="goodsId" />
+    <result column="goodsPicture" jdbcType="VARCHAR" property="goodsPicture" />
+    <result column="goodsName" jdbcType="VARCHAR" property="goodsName" />
+    <result column="price" jdbcType="FLOAT" property="price" />
+  </resultMap>
+
+<!--  查询某人的收藏夹-->
+  <select id="selectByUserId" parameterType="java.lang.Integer" resultMap="PageResultMap">
+    select f.id,f.goodsId,g.goodsPicture,g.goodsName,g.price
+    from favorites f
+    inner join goods g on f.goodsId = g.id
+  </select>
+
+<!--  删除收藏-->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from favorites
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+
+  <insert id="insert" parameterType="com.example.user.po.Favorites">
+    <!--@mbg.generated-->
+    insert into favorites (id, goodsId, userId
+      )
+    values (#{id,jdbcType=INTEGER}, #{goodsId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}
+      )
+  </insert>
+
+<!--  添加收藏-->
+  <insert id="insertSelective" parameterType="com.example.user.po.Favorites">
+    <!--@mbg.generated-->
+    insert into favorites
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="goodsId != null">
+        goodsId,
+      </if>
+      <if test="userId != null">
+        userId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="goodsId != null">
+        #{goodsId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.user.po.Favorites">
+    <!--@mbg.generated-->
+    update favorites
+    <set>
+      <if test="goodsId != null">
+        goodsId = #{goodsId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        userId = #{userId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.user.po.Favorites">
+    <!--@mbg.generated-->
+    update favorites
+    set goodsId = #{goodsId,jdbcType=INTEGER},
+      userId = #{userId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

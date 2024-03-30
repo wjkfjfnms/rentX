@@ -17,6 +17,7 @@ public class RE {
 
     private Map<String, Object> data = new HashMap<>();
 
+
     // 把构造方法私有化
     private RE() {}
 
@@ -71,6 +72,7 @@ public class RE {
         this.setData(map);
         return this;
     }
+
 
 }
 
