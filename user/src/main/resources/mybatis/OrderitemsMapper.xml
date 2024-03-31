@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.user.dao.OrderitemsMapper">
+  <resultMap id="BaseResultMap" type="com.example.user.po.Orderitems">
+    <!--@mbg.generated-->
+    <!--@Table orderitems-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="orderId" jdbcType="INTEGER" property="orderid" />
+    <result column="goodsId" jdbcType="INTEGER" property="goodsid" />
+    <result column="number" jdbcType="INTEGER" property="number" />
+    <result column="itemPrice" jdbcType="FLOAT" property="itemprice" />
+    <result column="itemDeposit" jdbcType="FLOAT" property="itemdeposit" />
+    <result column="comboId" jdbcType="INTEGER" property="comboid" />
+    <result column="leaseTime" jdbcType="INTEGER" property="leasetime" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, orderId, goodsId, `number`, itemPrice, itemDeposit, comboId, leaseTime, `state`
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from orderitems
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from orderitems
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.example.user.po.Orderitems" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into orderitems (orderId, goodsId, `number`, 
+      itemPrice, itemDeposit, comboId, 
+      leaseTime, `state`)
+    values (#{orderid,jdbcType=INTEGER}, #{goodsid,jdbcType=INTEGER}, #{number,jdbcType=INTEGER}, 
+      #{itemprice,jdbcType=FLOAT}, #{itemdeposit,jdbcType=FLOAT}, #{comboid,jdbcType=INTEGER}, 
+      #{leasetime,jdbcType=INTEGER}, #{state,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.example.user.po.Orderitems" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into orderitems
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orderid != null">
+        orderId,
+      </if>
+      <if test="goodsid != null">
+        goodsId,
+      </if>
+      <if test="number != null">
+        `number`,
+      </if>
+      <if test="itemprice != null">
+        itemPrice,
+      </if>
+      <if test="itemdeposit != null">
+        itemDeposit,
+      </if>
+      <if test="comboid != null">
+        comboId,
+      </if>
+      <if test="leasetime != null">
+        leaseTime,
+      </if>
+      <if test="state != null">
+        `state`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orderid != null">
+        #{orderid,jdbcType=INTEGER},
+      </if>
+      <if test="goodsid != null">
+        #{goodsid,jdbcType=INTEGER},
+      </if>
+      <if test="number != null">
+        #{number,jdbcType=INTEGER},
+      </if>
+      <if test="itemprice != null">
+        #{itemprice,jdbcType=FLOAT},
+      </if>
+      <if test="itemdeposit != null">
+        #{itemdeposit,jdbcType=FLOAT},
+      </if>
+      <if test="comboid != null">
+        #{comboid,jdbcType=INTEGER},
+      </if>
+      <if test="leasetime != null">
+        #{leasetime,jdbcType=INTEGER},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.user.po.Orderitems">
+    <!--@mbg.generated-->
+    update orderitems
+    <set>
+      <if test="orderid != null">
+        orderId = #{orderid,jdbcType=INTEGER},
+      </if>
+      <if test="goodsid != null">
+        goodsId = #{goodsid,jdbcType=INTEGER},
+      </if>
+      <if test="number != null">
+        `number` = #{number,jdbcType=INTEGER},
+      </if>
+      <if test="itemprice != null">
+        itemPrice = #{itemprice,jdbcType=FLOAT},
+      </if>
+      <if test="itemdeposit != null">
+        itemDeposit = #{itemdeposit,jdbcType=FLOAT},
+      </if>
+      <if test="comboid != null">
+        comboId = #{comboid,jdbcType=INTEGER},
+      </if>
+      <if test="leasetime != null">
+        leaseTime = #{leasetime,jdbcType=INTEGER},
+      </if>
+      <if test="state != null">
+        `state` = #{state,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.user.po.Orderitems">
+    <!--@mbg.generated-->
+    update orderitems
+    set orderId = #{orderid,jdbcType=INTEGER},
+      goodsId = #{goodsid,jdbcType=INTEGER},
+      `number` = #{number,jdbcType=INTEGER},
+      itemPrice = #{itemprice,jdbcType=FLOAT},
+      itemDeposit = #{itemdeposit,jdbcType=FLOAT},
+      comboId = #{comboid,jdbcType=INTEGER},
+      leaseTime = #{leasetime,jdbcType=INTEGER},
+      `state` = #{state,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

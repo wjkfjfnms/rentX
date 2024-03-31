@@ -1,17 +1,10 @@
-package com.example.user.vo;
+package com.example.user.dto;
 
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import java.util.List;
-
-/**
- * 商品表
- */
-@ApiModel(value="com-example-user-vo-Goods")
 @Data
-public class GoodsVO {
+public class UpdateGoodsDTO {
     /**
      * 商品id
      */
@@ -22,9 +15,6 @@ public class GoodsVO {
      * 类别
      */
     @ApiModelProperty(value="类别")
-    private String category;
-
-    @ApiModelProperty(value = "类别id")
     private Integer categoryId;
 
     /**
@@ -69,27 +59,5 @@ public class GoodsVO {
     @ApiModelProperty(value="商品图片（1张）")
     private String goodspicture;
 
-    /**
-     * 商品状态
-     */
-    @ApiModelProperty(value="商品状态")
-    private String state;
 
-    /**
-     * 商品详情图片
-     */
-    @ApiModelProperty(value="商品详情图片")
-    private List<GoodsDetailVO> goodsDetailVOList;
-
-    /**
-     * 成色
-     */
-    @ApiModelProperty(value="成色")
-    private List<QualityVO> qualityVOList;
-
-    /**
-     * 套餐
-     */
-    @ApiModelProperty(value="套餐")
-    private List<ComboVO> comboVOList;
 }

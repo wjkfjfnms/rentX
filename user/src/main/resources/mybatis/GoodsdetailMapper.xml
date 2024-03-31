@@ -15,7 +15,7 @@
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     <!--@mbg.generated-->
-    select 
+    select
     <include refid="Base_Column_List" />
     from goodsdetail
     where id = #{id,jdbcType=INTEGER}
@@ -27,11 +27,14 @@
   </delete>
   <insert id="insert" parameterType="com.example.user.po.Goodsdetail">
     <!--@mbg.generated-->
-    insert into goodsdetail (id, goodsId, address, 
+    insert into goodsdetail (id, goodsId, address,
       `state`)
-    values (#{id,jdbcType=INTEGER}, #{goodsid,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{goodsid,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR},
       #{state,jdbcType=INTEGER})
   </insert>
+
+
+<!--  上传图片信息-->
   <insert id="insertSelective" parameterType="com.example.user.po.Goodsdetail">
     <!--@mbg.generated-->
     insert into goodsdetail
@@ -45,9 +48,7 @@
       <if test="address != null">
         address,
       </if>
-      <if test="state != null">
-        `state`,
-      </if>
+        `state`
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -59,11 +60,18 @@
       <if test="address != null">
         #{address,jdbcType=VARCHAR},
       </if>
-      <if test="state != null">
-        #{state,jdbcType=INTEGER},
-      </if>
+      '在售'
     </trim>
   </insert>
+
+<!--  下架图片信息-->
+  <update id="upByPrimaryKey" parameterType="com.example.user.dto.UpdateStateDTO">
+    update goodsdetail
+    set state = #{state,jdbcType=VARCHAR}
+    where goodsId = #{id,jdbcType=INTEGER};
+  </update>
+
+
   <update id="updateByPrimaryKeySelective" parameterType="com.example.user.po.Goodsdetail">
     <!--@mbg.generated-->
     update goodsdetail

@@ -1,15 +1,16 @@
 package com.example.user.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.example.user.dto.UpdateStateDTO;
-import com.example.user.po.Quality;
+import com.example.user.po.Category;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public interface QualityMapper extends BaseMapper {
+public interface CategoryMapper extends BaseMapper {
 
-//    下架成色
-    int updateQuality(UpdateStateDTO updateStateDTO);
+    Category selectAll();
+
+    Category selectByCategory(String category);
+
     /**
      * delete by primary key
      * @param id primaryKey
@@ -22,33 +23,33 @@ public interface QualityMapper extends BaseMapper {
      * @param record the record
      * @return insert count
      */
-    int insert(Quality record);
+    int insert(Category record);
 
     /**
      * insert record to table selective
      * @param record the record
      * @return insert count
      */
-    int insertSelective(Quality record);
+    int insertSelective(Category record);
 
     /**
      * select by primary key
      * @param id primary key
      * @return object by primary key
      */
-    Quality selectByPrimaryKey(Integer id);
+    Category selectByPrimaryKey(Integer id);
 
     /**
      * update record selective
      * @param record the updated record
      * @return update count
      */
-    int updateByPrimaryKeySelective(Quality record);
+    int updateByPrimaryKeySelective(Category record);
 
     /**
      * update record
      * @param record the updated record
      * @return update count
      */
-    int updateByPrimaryKey(Quality record);
+    int updateByPrimaryKey(Category record);
 }

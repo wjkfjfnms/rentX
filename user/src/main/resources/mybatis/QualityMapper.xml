@@ -15,7 +15,7 @@
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     <!--@mbg.generated-->
-    select 
+    select
     <include refid="Base_Column_List" />
     from quality
     where id = #{id,jdbcType=INTEGER}
@@ -27,11 +27,13 @@
   </delete>
   <insert id="insert" parameterType="com.example.user.po.Quality">
     <!--@mbg.generated-->
-    insert into quality (id, goodsId, quality, 
+    insert into quality (id, goodsId, quality,
       `state`)
-    values (#{id,jdbcType=INTEGER}, #{goodsid,jdbcType=INTEGER}, #{quality,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{goodsid,jdbcType=INTEGER}, #{quality,jdbcType=VARCHAR},
       #{state,jdbcType=INTEGER})
   </insert>
+
+<!--  添加成色-->
   <insert id="insertSelective" parameterType="com.example.user.po.Quality">
     <!--@mbg.generated-->
     insert into quality
@@ -45,9 +47,7 @@
       <if test="quality != null">
         quality,
       </if>
-      <if test="state != null">
-        `state`,
-      </if>
+        `state`
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -59,11 +59,17 @@
       <if test="quality != null">
         #{quality,jdbcType=VARCHAR},
       </if>
-      <if test="state != null">
-        #{state,jdbcType=INTEGER},
-      </if>
+      '在售'
     </trim>
   </insert>
+
+<!--  下架商品成色-->
+  <update id="updateQuality" parameterType="com.example.user.dto.UpdateStateDTO">
+    update quality
+    set state = #{state,jdbcType=VARCHAR}
+    where goodsId = #{id,jdbcType=INTEGER}
+  </update>
+
   <update id="updateByPrimaryKeySelective" parameterType="com.example.user.po.Quality">
     <!--@mbg.generated-->
     update quality

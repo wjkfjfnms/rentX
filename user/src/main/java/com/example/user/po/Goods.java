@@ -16,11 +16,14 @@ public class Goods {
     @ApiModelProperty(value="商品id")
     private Integer id;
 
+    @ApiModelProperty(value = "所属商家id")
+    private Integer userId;
+
     /**
     * 类别
     */
     @ApiModelProperty(value="类别")
-    private String category;
+    private Integer categoryId;
 
     /**
     * 品牌
@@ -71,8 +74,8 @@ public class Goods {
     private Integer favorites;
 
     /**
-    * 是否删除（1：已删除  0：未删除）
+    * 商品状态
     */
-    @ApiModelProperty(value="是否删除（1：已删除  0：未删除）")
-    private Integer state;
+    @ApiModelProperty(value="商品状态")
+    private String state;
 }

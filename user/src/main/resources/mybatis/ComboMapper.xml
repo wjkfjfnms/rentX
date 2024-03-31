@@ -6,16 +6,17 @@
     <!--@Table combo-->
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="goodsId" jdbcType="INTEGER" property="goodsid" />
-    <result column="combo" jdbcType="VARCHAR" property="combo" />
+    <result column="comboName" jdbcType="VARCHAR" property="comboName" />
+    <result column="inventory" jdbcType="INTEGER" property="inventory" />
     <result column="state" jdbcType="INTEGER" property="state" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    id, goodsId, combo, `state`
+    id, goodsId, comboName, inventory,`state`
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     <!--@mbg.generated-->
-    select 
+    select
     <include refid="Base_Column_List" />
     from combo
     where id = #{id,jdbcType=INTEGER}
@@ -27,11 +28,13 @@
   </delete>
   <insert id="insert" parameterType="com.example.user.po.Combo">
     <!--@mbg.generated-->
-    insert into combo (id, goodsId, combo, 
+    insert into combo (id, goodsId, comboName,
       `state`)
-    values (#{id,jdbcType=INTEGER}, #{goodsid,jdbcType=INTEGER}, #{combo,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{goodsid,jdbcType=INTEGER}, #{comboName,jdbcType=VARCHAR},
       #{state,jdbcType=INTEGER})
   </insert>
+
+<!--  添加套餐-->
   <insert id="insertSelective" parameterType="com.example.user.po.Combo">
     <!--@mbg.generated-->
     insert into combo
@@ -42,12 +45,13 @@
       <if test="goodsid != null">
         goodsId,
       </if>
-      <if test="combo != null">
-        combo,
+      <if test="comboName != null">
+        comboName,
       </if>
-      <if test="state != null">
-        `state`,
+      <if test="inventory != null">
+        inventory,
       </if>
+        `state`
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -56,14 +60,24 @@
       <if test="goodsid != null">
         #{goodsid,jdbcType=INTEGER},
       </if>
-      <if test="combo != null">
-        #{combo,jdbcType=VARCHAR},
+      <if test="comboName != null">
+        #{comboName,jdbcType=VARCHAR},
       </if>
-      <if test="state != null">
-        #{state,jdbcType=INTEGER},
+      <if test="inventory != null">
+        #{inventory,jdbcType=INTEGER},
       </if>
+      '在售'
     </trim>
   </insert>
+
+<!--下架某商品的套餐-->
+  <update id="updateCombo" parameterType="com.example.user.dto.UpdateStateDTO">
+    update combo
+    set state = #{state,jdbcType=VARCHAR}
+    where goodsId = #{id,jdbcType=INTEGER}
+  </update>
+
+
   <update id="updateByPrimaryKeySelective" parameterType="com.example.user.po.Combo">
     <!--@mbg.generated-->
     update combo
@@ -71,8 +85,8 @@
       <if test="goodsid != null">
         goodsId = #{goodsid,jdbcType=INTEGER},
       </if>
-      <if test="combo != null">
-        combo = #{combo,jdbcType=VARCHAR},
+      <if test="comboName != null">
+        comboName = #{comboName,jdbcType=VARCHAR},
       </if>
       <if test="state != null">
         `state` = #{state,jdbcType=INTEGER},
@@ -84,7 +98,7 @@
     <!--@mbg.generated-->
     update combo
     set goodsId = #{goodsid,jdbcType=INTEGER},
-      combo = #{combo,jdbcType=VARCHAR},
+    comboName = #{comboName,jdbcType=VARCHAR},
       `state` = #{state,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>

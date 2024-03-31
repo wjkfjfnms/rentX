@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.user.dao.AddressMapper">
+  <resultMap id="BaseResultMap" type="com.example.user.po.Address">
+    <!--@mbg.generated-->
+    <!--@Table address-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="userId" jdbcType="INTEGER" property="userid" />
+    <result column="consignee" jdbcType="VARCHAR" property="consignee" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="zip" jdbcType="VARCHAR" property="zip" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, userId, consignee, phone, zip, address
+  </sql>
+
+
+<!--  根据主键返回收货地址信息-->
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from address
+    where id = #{id,jdbcType=INTEGER} and state = 0
+  </select>
+
+
+<!--  分页查询所有地址信息-->
+  <select id="findAll" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select *
+    from address
+    where state=0 and userId = #{userId,jdbcType=INTEGER}
+  </select>
+
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from address
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.example.user.po.Address" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into address (userId, consignee, phone,
+      zip, address)
+    values (#{userid,jdbcType=INTEGER}, #{consignee,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},
+      #{zip,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR})
+  </insert>
+
+
+<!--  添加收货地址-->
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.example.user.po.Address" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into address
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userid != null">
+        userId,
+      </if>
+      <if test="consignee != null">
+        consignee,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="zip != null">
+        zip,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userid != null">
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="consignee != null">
+        #{consignee,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="zip != null">
+        #{zip,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        0,
+      </if>
+    </trim>
+  </insert>
+
+
+<!--修改收货地址信息-->
+  <update id="updateByPrimaryKeySelective" keyColumn="id" keyProperty="id" parameterType="com.example.user.po.Address" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    update address
+    <set>
+      <if test="userid != null">
+        userId = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="consignee != null">
+        consignee = #{consignee,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="zip != null">
+        zip = #{zip,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+<!--  删除收货地址-->
+  <update id="updateByPrimaryKey" parameterType="com.example.user.po.Address">
+    <!--@mbg.generated-->
+    update address
+    set state = 1
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

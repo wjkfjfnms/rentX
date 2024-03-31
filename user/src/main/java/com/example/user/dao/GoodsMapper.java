@@ -1,12 +1,41 @@
 package com.example.user.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.user.dto.UpdateGoodsDTO;
+import com.example.user.dto.UpdateStateDTO;
+import com.example.user.dto.UploadGoodsDTO;
 import com.example.user.po.Goods;
 import com.example.user.vo.GoodsVO;
+import com.example.user.vo.PagePara;
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.data.repository.query.Param;
 
 @Mapper
 public interface GoodsMapper extends BaseMapper<Goods> {
+
+//    获取收藏量
+    Goods getFavorites(Integer id);
+
+//    收藏+1
+    int updateFavorites(Integer id,Integer shoucang);
+
+//    最近上新
+    Goods RecentlyNew();
+
+//    热销推荐
+    Goods hostGoods();
+
+//    分页查询
+    IPage<Goods> findMyGoods(Long uid, Page<PagePara> page, @Param("par")PagePara pagePara);
+
+//    下架商品
+    int updateState(UpdateStateDTO updateStateDTO);
+
+//    查找同名商品
+    GoodsVO selectByGoodsName(UploadGoodsDTO uploadGoodsDTO);
+
     /**
      * delete by primary key
      * @param id primaryKey
@@ -19,14 +48,15 @@ public interface GoodsMapper extends BaseMapper<Goods> {
      * @param record the record
      * @return insert count
      */
+    @Override
     int insert(Goods record);
 
     /**
      * insert record to table selective
-     * @param record the record
+     * @param uploadGoodsDTO the record
      * @return insert count
      */
-    int insertSelective(Goods record);
+    int insertSelective(UploadGoodsDTO uploadGoodsDTO);
 
     /**
      * select by primary key
@@ -37,10 +67,10 @@ public interface GoodsMapper extends BaseMapper<Goods> {
 
     /**
      * update record selective
-     * @param record the updated record
+     * @param updateGoodsDTO the updated record
      * @return update count
      */
-    int updateByPrimaryKeySelective(Goods record);
+    int updateByPrimaryKeySelective(UpdateGoodsDTO updateGoodsDTO);
 
     /**
      * update record

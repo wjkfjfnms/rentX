@@ -5,7 +5,7 @@
     <!--@mbg.generated-->
     <!--@Table goods-->
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="category" jdbcType="VARCHAR" property="category" />
+    <result column="categoryId" jdbcType="INTEGER" property="categoryId" />
     <result column="brand" jdbcType="VARCHAR" property="brand" />
     <result column="goodsName" jdbcType="VARCHAR" property="goodsname" />
     <result column="description" jdbcType="VARCHAR" property="description" />
@@ -13,6 +13,7 @@
     <result column="buyout" jdbcType="INTEGER" property="buyout" />
     <result column="buyoutPrice" jdbcType="FLOAT" property="buyoutprice" />
     <result column="goodsPicture" jdbcType="VARCHAR" property="goodspicture" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
     <collection property="goodsDetailVOList" ofType="com.example.user.vo.GoodsDetailVO">
       <id column="gdid" jdbcType="INTEGER" property="id" />
       <result column="address" jdbcType="VARCHAR" property="address" />
@@ -23,25 +24,81 @@
     </collection>
     <collection property="comboVOList" ofType="com.example.user.vo.ComboVO">
       <id column="cid" jdbcType="INTEGER" property="id" />
-      <result column="combo" jdbcType="VARCHAR" property="combo" />
+      <result column="comboName" jdbcType="VARCHAR" property="combo" />
     </collection>
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    id, category, brand, goodsName, description, price, buyout, buyoutPrice, goodsPicture
+    id, categoryId, brand, goodsName, description, price, buyout, buyoutPrice, goodsPicture, state
   </sql>
+
+<!--  根据主键查询商品信息-->
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     <!--@mbg.generated-->
     SELECT
-    g.id, g.category, g.brand, g.goodsName, g.description, g.price, g.buyout, g.buyoutPrice, g.goodsPicture, gd.address , gd.id gdid, q.id qid,q.quality,c.id cid,combo
+    g.id, g.categoryId, g.brand, g.goodsName, g.description, g.price, g.buyout, g.buyoutPrice, g.goodsPicture,g.state,
+    gd.address , gd.id gdid, q.id qid,q.quality,c.id cid,c.comboName
     FROM
     goods g
     JOIN goodsdetail gd ON g.id = gd.goodsId
     JOIN quality q ON g.id = q.goodsId
     JOIN combo c ON g.id = c.goodsId
     WHERE
-    g.id = #{id,jdbcType=INTEGER} and g.state = 0
+    g.id = #{id,jdbcType=INTEGER}
   </select>
+
+  <resultMap id="PageResultMap" type="com.example.user.po.Goods">
+    <!--@mbg.generated-->
+    <!--@Table goods-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="categoryId" jdbcType="INTEGER" property="categoryId" />
+    <result column="brand" jdbcType="VARCHAR" property="brand" />
+    <result column="goodsName" jdbcType="VARCHAR" property="goodsname" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="price" jdbcType="FLOAT" property="price" />
+    <result column="buyout" jdbcType="INTEGER" property="buyout" />
+    <result column="buyoutPrice" jdbcType="FLOAT" property="buyoutprice" />
+    <result column="goodsPicture" jdbcType="VARCHAR" property="goodspicture" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
+  </resultMap>
+
+
+<!--  根据用户id查询-->
+  <select id="findMyGoods" resultMap="PageResultMap">
+    select *
+    from goods
+    where userId = #{arg0,jdbcType=BIGINT}
+  </select>
+
+<!--根据商品名称查询-->
+  <select id="selectByGoodsName" resultMap="BaseResultMap" parameterType="com.example.user.dto.UploadGoodsDTO">
+    select *
+    from goods
+    where goodsName = #{goodsname,jdbcType=VARCHAR} and userId = #{id,jdbcType=BIGINT} and state = 0
+  </select>
+
+<!--最近上新-->
+  <select id="RecentlyNew" resultMap="PageResultMap">
+    SELECT g.*
+    FROM goods g
+                 JOIN (
+            SELECT categoryId, MAX(uploadTime) AS latest_upload_time
+            FROM goods
+            WHERE state = 0
+            GROUP BY categoryId
+            ) latest ON g.categoryId = latest.categoryId AND g.uploadTime = latest.latest_upload_time
+    ORDER BY g.categoryId, g.uploadTime DESC
+    LIMIT 5
+  </select>
+
+<!--  热销推荐-->
+  <select id="hostGoods" resultMap="PageResultMap">
+    select *
+    from goods
+    ORDER BY favorites DESC
+    LIMIT 5
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     <!--@mbg.generated-->
     delete from goods
@@ -49,24 +106,30 @@
   </delete>
   <insert id="insert" parameterType="com.example.user.po.Goods">
     <!--@mbg.generated-->
-    insert into goods (id, category, brand,
+    insert into goods (id, categoryId, brand,
       goodsName, description, price,
       buyout, buyoutPrice, goodsPicture,
       favorites, `state`)
-    values (#{id,jdbcType=INTEGER}, #{category,jdbcType=VARCHAR}, #{brand,jdbcType=VARCHAR},
+    values (#{id,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER}, #{brand,jdbcType=VARCHAR},
       #{goodsname,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{price,jdbcType=FLOAT},
       #{buyout,jdbcType=INTEGER}, #{buyoutprice,jdbcType=FLOAT}, #{goodspicture,jdbcType=VARCHAR},
       #{favorites,jdbcType=INTEGER}, #{state,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.example.user.po.Goods">
+
+
+<!--  上架商品-->
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.example.user.dto.UploadGoodsDTO" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into goods
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
       </if>
-      <if test="category != null">
-        category,
+      <if test="userId != null">
+        userId,
+      </if>
+      <if test="categoryId != null">
+        categoryId,
       </if>
       <if test="brand != null">
         brand,
@@ -89,19 +152,17 @@
       <if test="goodspicture != null">
         goodsPicture,
       </if>
-      <if test="favorites != null">
-        favorites,
-      </if>
-      <if test="state != null">
-        `state`,
-      </if>
+        state
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="category != null">
-        #{category,jdbcType=VARCHAR},
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="categoryId != null">
+        #{categoryId,jdbcType=INTEGER},
       </if>
       <if test="brand != null">
         #{brand,jdbcType=VARCHAR},
@@ -124,20 +185,39 @@
       <if test="goodspicture != null">
         #{goodspicture,jdbcType=VARCHAR},
       </if>
-      <if test="favorites != null">
-        #{favorites,jdbcType=INTEGER},
-      </if>
-      <if test="state != null">
-        #{state,jdbcType=INTEGER},
-      </if>
+      '在售'
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.example.user.po.Goods">
+
+
+  <!--  下架商品-->
+  <update id="updateState" parameterType="com.example.user.dto.UpdateStateDTO">
+    update goods
+    set state = #{state,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+<!--  收藏量+1-->
+  <update id="updateFavorites" parameterType="integer">
+    update goods
+    set favorites = #{shoucang,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+<!--  获取收藏量-->
+  <select id="getFavorites" resultMap="PageResultMap">
+    select favorites
+    from goods
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+
+  <update id="updateByPrimaryKeySelective" keyColumn="id" keyProperty="id" useGeneratedKeys="true" parameterType="com.example.user.dto.UpdateGoodsDTO">
     <!--@mbg.generated-->
     update goods
     <set>
-      <if test="category != null">
-        category = #{category,jdbcType=VARCHAR},
+      <if test="categoryId != null">
+        categoryId = #{categoryId,jdbcType=INTEGER},
       </if>
       <if test="brand != null">
         brand = #{brand,jdbcType=VARCHAR},
@@ -160,19 +240,15 @@
       <if test="goodspicture != null">
         goodsPicture = #{goodspicture,jdbcType=VARCHAR},
       </if>
-      <if test="favorites != null">
-        favorites = #{favorites,jdbcType=INTEGER},
-      </if>
-      <if test="state != null">
-        `state` = #{state,jdbcType=INTEGER},
-      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+
   <update id="updateByPrimaryKey" parameterType="com.example.user.po.Goods">
     <!--@mbg.generated-->
     update goods
-    set category = #{category,jdbcType=VARCHAR},
+    set categoryId = #{categoryId,jdbcType=INTEGER},
       brand = #{brand,jdbcType=VARCHAR},
       goodsName = #{goodsname,jdbcType=VARCHAR},
       description = #{description,jdbcType=VARCHAR},

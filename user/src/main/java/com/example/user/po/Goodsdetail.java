@@ -1,8 +1,10 @@
 package com.example.user.po;
 
+import io.netty.util.internal.MacAddressUtil;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
     * 商品详情图片表
@@ -25,12 +27,15 @@ public class Goodsdetail {
     /**
     * 商品详情图的地址
     */
-    @ApiModelProperty(value="商品详情图的地址")
+    @ApiModelProperty(value="不用传")
     private String address;
 
+    @ApiModelProperty(value="商品详情图")
+    private MultipartFile file;
+
     /**
-    * 是否删除（1：已删除 0：未删除）
+    * 商品状态
     */
-    @ApiModelProperty(value="是否删除（1：已删除 0：未删除）")
-    private Integer state;
+    @ApiModelProperty(value="商品状态")
+    private String state;
 }

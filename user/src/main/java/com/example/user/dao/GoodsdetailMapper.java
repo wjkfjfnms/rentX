@@ -1,11 +1,15 @@
 package com.example.user.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.example.user.dto.UpdateStateDTO;
 import com.example.user.po.Goodsdetail;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface GoodsdetailMapper extends BaseMapper {
+
+    int upByPrimaryKey(UpdateStateDTO updateStateDTO);
+
     /**
      * delete by primary key
      * @param id primaryKey

@@ -13,7 +13,7 @@ public class Combo {
     /**
     * 套餐id
     */
-    @ApiModelProperty(value="套餐id")
+    @ApiModelProperty(value="套餐id（不用传）")
     private Integer id;
 
     /**
@@ -26,11 +26,17 @@ public class Combo {
     * 套餐名称/描述
     */
     @ApiModelProperty(value="套餐名称/描述")
-    private String combo;
+    private String comboName;
 
     /**
-    * 是否删除（1：已删除  0：未删除）
+     * 库存
+     */
+    @ApiModelProperty(value="库存")
+    private Integer inventory;
+
+    /**
+    * 套餐状态
     */
-    @ApiModelProperty(value="是否删除（1：已删除  0：未删除）")
-    private Integer state;
+    @ApiModelProperty(value="套餐状态")
+    private String state;
 }

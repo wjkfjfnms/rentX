@@ -1,11 +1,16 @@
 package com.example.user.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.example.user.dto.UpdateStateDTO;
 import com.example.user.po.Combo;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface ComboMapper extends BaseMapper {
+
+//    下架套餐
+    int updateCombo(UpdateStateDTO updateStateDTO);
+
     /**
      * delete by primary key
      * @param id primaryKey

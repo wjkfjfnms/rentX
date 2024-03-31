@@ -1,27 +1,50 @@
 package com.example.user.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.example.user.dto.UpdateGoodsDTO;
+import com.example.user.dto.UploadGoodsDTO;
 import com.example.user.po.Goods;
 import com.example.user.po.Users;
 import com.example.user.vo.GoodsVO;
+import com.example.user.vo.PagePara;
+import com.example.user.vo.RE;
 
 public interface GoodsService extends IService<Goods> {
 
+//    最近上新
+    RE RecentlyNew();
+
+//    热销推荐
+    RE hostGoods();
+
+//    分页查询
+    RE findMyGoods( PagePara pagePara);
 
     int deleteByPrimaryKey(Integer id);
 
     int insert(Goods record);
 
 //    上传商品信息
-    int insertSelective(Goods record);
+    RE insertSelective(UploadGoodsDTO uploadGoodsDTO);
 
 //    根据主键查找商品信息
-    GoodsVO selectByPrimaryKey(Integer id);
+    RE selectByPrimaryKey(Integer id);
 
 //    修改商品信息
-    int updateByPrimaryKeySelective(Goods record);
+    RE updateByPrimaryKeySelective(UpdateGoodsDTO updateGoodsDTO);
 
-//    删除商品
+    //   修改商品状态
+    RE updateState(Integer id, String state);
+
+    // 下架商品
+    RE downGoods(Integer id);
+
+//    商品重新上架
+    RE upGoods(Integer id);
+
+//    停售商品
+    RE stopGoods(Integer id);
+
     int updateByPrimaryKey(Goods record);
 
 }

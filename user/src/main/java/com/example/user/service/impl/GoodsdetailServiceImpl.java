@@ -1,5 +1,7 @@
 package com.example.user.service.impl;
 
+import com.example.user.dto.UpdateStateDTO;
+import com.example.user.vo.RE;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import com.example.user.po.Goodsdetail;
@@ -12,8 +14,14 @@ public class GoodsdetailServiceImpl implements GoodsdetailService{
     private GoodsdetailMapper goodsdetailMapper;
 
     @Override
-    public int deleteByPrimaryKey(Integer id) {
-        return goodsdetailMapper.deleteByPrimaryKey(id);
+    public RE deleteByPrimaryKey(Integer id) {
+//        UpdateStateDTO updateStateDTO = new UpdateStateDTO();
+//        updateStateDTO.setId(id);
+//        updateStateDTO.setState("已下架");
+        if (goodsdetailMapper.deleteByPrimaryKey(id) != 0){
+            return RE.ok();
+        }
+        return RE.error();
     }
 
     @Override
@@ -37,8 +45,11 @@ public class GoodsdetailServiceImpl implements GoodsdetailService{
     }
 
     @Override
-    public int updateByPrimaryKey(Goodsdetail record) {
-        return goodsdetailMapper.updateByPrimaryKey(record);
+    public RE updateByPrimaryKey(Goodsdetail record) {
+        if (goodsdetailMapper.updateByPrimaryKey(record) != 0){
+            return RE.ok();
+        }
+        return RE.error();
     }
 
 }

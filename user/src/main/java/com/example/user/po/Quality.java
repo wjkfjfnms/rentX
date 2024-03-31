@@ -29,8 +29,8 @@ public class Quality {
     private String quality;
 
     /**
-    * 是否删除（1：已删除 0：未删除）
+    * 成色状态
     */
-    @ApiModelProperty(value="是否删除（1：已删除 0：未删除）")
-    private Integer state;
+    @ApiModelProperty(value="成色状态")
+    private String state;
 }
