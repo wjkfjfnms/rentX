@@ -31,10 +31,11 @@
   </resultMap>
 
 <!--  查询某人的收藏夹-->
-  <select id="selectByUserId" parameterType="java.lang.Integer" resultMap="PageResultMap">
+  <select id="selectByUserId" resultMap="PageResultMap">
     select f.id,f.goodsId,g.goodsPicture,g.goodsName,g.price
     from favorites f
     inner join goods g on f.goodsId = g.id
+    where f.userId = #{arg0,jdbcType=BIGINT}
   </select>
 
 <!--  删除收藏-->

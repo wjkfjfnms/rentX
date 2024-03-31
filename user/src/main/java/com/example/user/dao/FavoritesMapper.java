@@ -12,7 +12,7 @@ import org.springframework.data.repository.query.Param;
 @Mapper
 public interface FavoritesMapper extends BaseMapper {
 
-    IPage<FavoritesVO> selectByUserId(@Param("userId")Integer userId, Page<PagePara> page, @Param("par")PagePara pagePara);
+    IPage<FavoritesVO> selectByUserId(@Param("userId")Long userId, Page<PagePara> page, @Param("par")PagePara pagePara);
 
     /**
      * delete by primary key

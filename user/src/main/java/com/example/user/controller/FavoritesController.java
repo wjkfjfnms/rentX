@@ -32,10 +32,10 @@ public class FavoritesController {
         return favoritesService.deleteByPrimaryKey(id);
     }
 
-    @ApiOperation(value = "分页查询收藏")
+    @ApiOperation(value = "分页查询个人收藏")
     @GetMapping("/selectByUserId")
-    public RE selectByUserId(Integer userId, PagePara pagePara){
-        return favoritesService.selectByUserId(userId,pagePara);
+    public RE selectByUserId(PagePara pagePara){
+        return favoritesService.selectByUserId(pagePara);
     }
 
 }

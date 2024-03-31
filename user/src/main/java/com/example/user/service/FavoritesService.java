@@ -7,7 +7,7 @@ import com.example.user.vo.RE;
 public interface FavoritesService{
 
 //    分页查询收藏
-    RE selectByUserId(Integer userId,PagePara pagePara);
+    RE selectByUserId(PagePara pagePara);
 
 //删除收藏
     RE deleteByPrimaryKey(Integer id);
