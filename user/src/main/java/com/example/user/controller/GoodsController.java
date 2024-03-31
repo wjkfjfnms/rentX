@@ -3,6 +3,7 @@ package com.example.user.controller;
 import com.example.user.dto.UpdateGoodsDTO;
 import com.example.user.dto.UploadGoodsDTO;
 import com.example.user.service.GoodsService;
+import com.example.user.vo.PagePara;
 import com.example.user.vo.RE;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -59,5 +60,10 @@ public class GoodsController {
         return goodsService.stopGoods(id);
     }
 
+    @ApiOperation(value = "商家查询他的全部商品")
+    @GetMapping("/findMyGoods")
+    public RE findMyGoods( PagePara pagePara){
+        return goodsService.findMyGoods(pagePara);
+    }
 
 }
