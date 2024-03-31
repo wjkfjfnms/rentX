@@ -58,5 +58,5 @@ public interface AddressMapper extends BaseMapper {
      * @param pagePara
      * @return
      */
-    IPage<Address> findAll(@Param("userId") Integer userId, Page<PagePara> page, @Param("par") PagePara pagePara);
+    IPage<Address> findAll(@Param("userId") Long userId, Page<PagePara> page, @Param("par") PagePara pagePara);
 }

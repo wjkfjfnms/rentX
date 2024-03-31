@@ -20,7 +20,7 @@ public class Address {
     * 用户id，users表的id
     */
     @ApiModelProperty(value="用户id，users表的id")
-    private Integer userid;
+    private Long userid;
 
     /**
     * 收货人

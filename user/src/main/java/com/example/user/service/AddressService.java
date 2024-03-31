@@ -19,6 +19,6 @@ public interface AddressService{
 
     RE updateByPrimaryKey(Integer id);
 
-    RE findAll(Integer userId, PagePara pagePara);
+    RE findAll(PagePara pagePara);
 
 }

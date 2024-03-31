@@ -52,7 +52,7 @@ public class AddressController {
 
     @ApiOperation(value = "分页查询地址")
     @GetMapping("/findAll")
-    public RE findAll(Integer userId, PagePara pagePara){
-        return addressService.findAll(userId,pagePara);
+    public RE findAll(PagePara pagePara){
+        return addressService.findAll(pagePara);
     }
 }

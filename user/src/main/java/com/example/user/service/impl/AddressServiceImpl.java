@@ -2,10 +2,12 @@ package com.example.user.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.user.service.CommonService;
 import com.example.user.util.PageResultS;
 import com.example.user.vo.FavoritesVO;
 import com.example.user.vo.PagePara;
 import com.example.user.vo.RE;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import com.example.user.dao.AddressMapper;
@@ -16,6 +18,9 @@ public class AddressServiceImpl implements AddressService{
 
     @Resource
     private AddressMapper addressMapper;
+
+    @Autowired
+    CommonService commonService;
 
     @Override
     public int deleteByPrimaryKey(Integer id) {
@@ -29,8 +34,12 @@ public class AddressServiceImpl implements AddressService{
 
     @Override
     public RE insertSelective(Address address) {
+//        获取用户id
+        Long id = commonService.getUsersDetails().getId();
+
         if (address != null){
 //            添加地址
+            address.setUserid(id);
             int re = addressMapper.insertSelective(address);
             if (re != 0){
 //            返回新增的地址信息
@@ -75,10 +84,8 @@ public class AddressServiceImpl implements AddressService{
     }
 
     @Override
-    public RE findAll(Integer userId, PagePara pagePara) {
-        if (userId == null){
-            return RE.error().message("userId的值为空！");
-        }
+    public RE findAll(PagePara pagePara) {
+        Long userId = commonService.getUsersDetails().getId();
         // 创建 Page 对象，指定当前页和每页显示数量
         Page<PagePara> page = new Page<>(pagePara.getNowPage() == null ? 1 : pagePara.getNowPage(), pagePara.getOnePageCount() == null ? 3 : pagePara.getOnePageCount());
         IPage<Address> queryResult =addressMapper.findAll(userId,page, pagePara);

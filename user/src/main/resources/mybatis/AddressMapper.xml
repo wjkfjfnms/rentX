@@ -28,10 +28,10 @@
 
 
 <!--  分页查询所有地址信息-->
-  <select id="findAll" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+  <select id="findAll" resultMap="BaseResultMap" parameterType="long">
     select *
     from address
-    where state=0 and userId = #{userId,jdbcType=INTEGER}
+    where state=0 and userId = #{arg0,jdbcType=BIGINT}
   </select>
 
 
@@ -76,7 +76,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="userid != null">
-        #{userid,jdbcType=INTEGER},
+        #{userid,jdbcType=BIGINT},
       </if>
       <if test="consignee != null">
         #{consignee,jdbcType=VARCHAR},
