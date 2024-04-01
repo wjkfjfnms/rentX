@@ -194,9 +194,6 @@
       <if test="state != null and state != '' != null">
         `status`,
       </if>
-      <if test="createtime != null and createtime != '' != null">
-        createtime,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="ordernum != null">
@@ -222,9 +219,6 @@
       </if>
       <if test="state != null and state != '' != null">
         #{state,jdbcType=INTEGER},
-      </if>
-      <if test="createtime != null">
-        #{createtime},
       </if>
     </trim>
   </insert>
@@ -272,4 +266,11 @@
     set addressId = #{addressid,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <update id="updateOrderStatus" parameterType="com.example.user.dto.UpdateOrderStatusDTO">
+    update orders
+    set status = #{status,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
 </mapper>

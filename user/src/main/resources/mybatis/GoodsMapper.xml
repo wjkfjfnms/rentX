@@ -154,9 +154,6 @@
       <if test="goodspicture != null">
         goodsPicture,
       </if>
-      <if test="uploadTime != null">
-        uploadTime,
-      </if>
         state
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -189,9 +186,6 @@
       </if>
       <if test="goodspicture != null">
         #{goodspicture,jdbcType=VARCHAR},
-      </if>
-      <if test="uploadTime != null">
-        #{uploadTime},
       </if>
       '在售'
     </trim>
