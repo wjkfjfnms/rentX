@@ -73,6 +73,6 @@ public interface OrdersMapper extends BaseMapper {
     IPage<OrderVO> findMyOrderByBusinessId(@Param("id")Long id,Page<PagePara> page, @Param("par")PagePara pagePara);
 
 //   修改订单状态
-    int updateOrderStatus(Integer id);
+    int updateOrderStatus(UpdateOrderStatusDTO updateOrderStatusDTO);
 
 }

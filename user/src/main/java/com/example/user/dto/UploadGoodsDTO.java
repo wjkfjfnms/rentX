@@ -68,8 +68,6 @@ public class UploadGoodsDTO {
     @ApiModelProperty(value="商品图片（1张）")
     private MultipartFile file;
 
-    @ApiModelProperty(value="上架时间")
-    private Date uploadTime;
 
     /**
      * 类别
