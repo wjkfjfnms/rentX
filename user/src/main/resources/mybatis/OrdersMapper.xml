@@ -17,16 +17,139 @@
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    id, ordernum, businessId, customerId, price, deposit, addressId, remark, `status`, 
+    id, ordernum, businessId, customerId, price, deposit, addressId, remark, `status`,
     createtime
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     <!--@mbg.generated-->
-    select 
+    select
     <include refid="Base_Column_List" />
     from orders
     where id = #{id,jdbcType=INTEGER}
   </select>
+
+  <resultMap id="OrderMap" type="com.example.user.dto.CreateOrderDTO">
+    <result property="ordernum" column="ordernum"/>
+    <result property="businessid" column="businessId"/>
+    <result property="customerid" column="customerId"/>
+    <result property="price" column="price"/>
+    <result property="deposit" column="deposit"/>
+    <result property="addressid" column="addressId"/>
+    <result property="remark" column="remark"/>
+    <result property="state" column="status"/>
+    <result property="number" column="number"/>
+    <result property="itemprice" column="itemprice"/>
+    <result property="itemdeposit" column="itemdeposit"/>
+    <result property="comboName" column="comboName"/>
+    <result property="leasetime" column="leasetime"/>
+    <result property="quality" column="quality"/>
+  </resultMap>
+
+<!--  根据主键查询订单-->
+<!--  <select id="findById" resultMap="OrderMap" parameterType="java.lang.Integer">-->
+<!--    select o.ordernum, o.businessId ,o.customerId, o.price, o.deposit, o.addressId, o.remark,o.status,-->
+<!--      oi.number,oi.itemprice,oi.itemdeposit,oi.leasetime,oi.qualityId,-->
+<!--      c.comboName,q.quality-->
+<!--    from orderitems oi-->
+<!--    join combo c on oi.comboId = c.id-->
+<!--    join quality q on oi.qualityId = q.id-->
+<!--    join orders o on oi.orderId = o.id-->
+<!--    where oi.id = #{id}-->
+<!--  </select>-->
+
+<!--  根据主键查询该订单的地址-->
+  <resultMap id="addressMap" type="string">
+    <result property="address" column="address"/>
+  </resultMap>
+
+  <select id="findAddressById" parameterType="java.lang.Integer"  resultMap="addressMap">
+    select a.address
+    from address a
+    join orders o on a.id = o.addressId
+    where addressId = #{addressId}
+  </select>
+
+  <!--  根据主键查询该订单的状态-->
+  <resultMap id="statusMap" type="string">
+    <result property="status" column="status"/>
+  </resultMap>
+
+  <select id="findStatusById" parameterType="java.lang.Integer" resultMap="statusMap">
+    select status
+    from orders
+    where id = #{id}
+  </select>
+
+  <resultMap id="myOrderMap" type="com.example.user.vo.OrderVO">
+    <id property="id" column="id" jdbcType="BIGINT"/>
+    <result property="orderNumber" column="orderNumber" jdbcType="VARCHAR"/>
+    <result property="price" column="price" jdbcType="FLOAT"/>
+    <result property="deposit" column="deposit" jdbcType="FLOAT"/>
+    <result property="remark" column="remark" jdbcType="VARCHAR"/>
+    <result property="createTime" column="createTime" jdbcType="DATE"/>
+    <result property="status" column="status" jdbcType="VARCHAR"/>
+    <result property="comboName" column="comboName" jdbcType="VARCHAR"/>
+    <result property="quality" column="quality" jdbcType="VARCHAR"/>
+    <result property="customerNickname" column="customerNickname" jdbcType="VARCHAR"/>
+    <result property="consignee" column="consignee" jdbcType="VARCHAR"/>
+    <result property="phone" column="phone" jdbcType="VARCHAR"/>
+    <result property="zip" column="zip" jdbcType="VARCHAR"/>
+    <result property="address" column="address" jdbcType="VARCHAR"/>
+    <collection property="orderItemsList" ofType="com.example.user.vo.OrderItemVO">
+      <result property="number" column="number" jdbcType="INTEGER"/>
+      <result property="leaseTime" column="leaseTime" jdbcType="INTEGER"/>
+      <result property="itemPrice" column="itemPrice" jdbcType="FLOAT"/>
+      <result property="itemDeposit" column="itemDeposit" jdbcType="FLOAT"/>
+    </collection>
+  </resultMap>
+
+<!--根据商家id分页查找订单-->
+  <select id="findMyOrderByBusinessId" resultMap="myOrderMap" parameterType="long">
+    SELECT o.id, o.ordernum AS orderNumber, o.price, o.deposit, o.remark, o.createtime AS createTime, o.status,
+        oi.number, oi.leaseTime, oi.itemPrice, oi.itemDeposit,
+        c.comboName, q.quality, u.nickname AS customerNickname,
+        a.consignee, a.phone, a.zip, a.address
+    FROM orders o
+    INNER JOIN orderitems oi ON o.id = oi.orderId
+    LEFT JOIN combo c ON oi.comboId = c.id
+    LEFT JOIN quality q ON oi.qualityId = q.id
+    INNER JOIN users u ON o.customerId = u.id
+    INNER JOIN address a ON o.addressId = a.id
+    WHERE o.businessId = #{arg0};
+  </select>
+
+
+  <select id="findMyOrderByCustomerId" resultMap="myOrderMap" parameterType="long">
+    SELECT o.id AS orderId, o.ordernum AS orderNumber, o.price, o.deposit, o.remark, o.createtime AS createTime, o.status,
+    oi.number, oi.leaseTime, oi.itemPrice, oi.itemDeposit,
+    c.comboName, q.quality, u.nickname AS customerNickname,
+    a.consignee, a.phone, a.zip, a.address
+    FROM orders o
+    INNER JOIN orderitems oi ON o.id = oi.orderId
+    LEFT JOIN combo c ON oi.comboId = c.id
+    LEFT JOIN quality q ON oi.qualityId = q.id
+    INNER JOIN users u ON o.businessId = u.id
+    INNER JOIN address a ON o.addressId = a.id
+    WHERE o.customerId = #{arg0};
+  </select>
+
+
+  <select id="findById" resultMap="myOrderMap" parameterType="java.lang.Integer">
+    SELECT o.id AS orderId, o.ordernum AS orderNumber, o.price, o.deposit, o.remark, o.createtime AS createTime, o.status,
+    oi.number, oi.leaseTime, oi.itemPrice, oi.itemDeposit,
+    c.comboName, q.quality, u.nickname AS customerNickname,
+    a.consignee, a.phone, a.zip, a.address
+    FROM orders o
+    INNER JOIN orderitems oi ON o.id = oi.orderId
+    LEFT JOIN combo c ON oi.comboId = c.id
+    LEFT JOIN quality q ON oi.qualityId = q.id
+    INNER JOIN users u ON o.businessId = u.id
+    INNER JOIN address a ON o.addressId = a.id
+    WHERE o.id = #{arg0};
+  </select>
+
+
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     <!--@mbg.generated-->
     delete from orders
@@ -34,16 +157,16 @@
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.example.user.po.Orders" useGeneratedKeys="true">
     <!--@mbg.generated-->
-    insert into orders (ordernum, businessId, customerId, 
-      price, deposit, addressId, 
+    insert into orders (ordernum, businessId, customerId,
+      price, deposit, addressId,
       remark, `status`, createtime
       )
-    values (#{ordernum,jdbcType=VARCHAR}, #{businessid,jdbcType=VARCHAR}, #{customerid,jdbcType=VARCHAR}, 
-      #{price,jdbcType=FLOAT}, #{deposit,jdbcType=FLOAT}, #{addressid,jdbcType=INTEGER}, 
+    values (#{ordernum,jdbcType=VARCHAR}, #{businessid,jdbcType=VARCHAR}, #{customerid,jdbcType=VARCHAR},
+      #{price,jdbcType=FLOAT}, #{deposit,jdbcType=FLOAT}, #{addressid,jdbcType=INTEGER},
       #{remark,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.example.user.po.Orders" useGeneratedKeys="true">
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.example.user.dto.CreateOrderDTO" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into orders
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -65,13 +188,13 @@
       <if test="addressid != null">
         addressId,
       </if>
-      <if test="remark != null">
+      <if test="remark != null and remark != '' != null">
         remark,
       </if>
-      <if test="status != null">
+      <if test="state != null and state != '' != null">
         `status`,
       </if>
-      <if test="createtime != null">
+      <if test="createtime != null and createtime != '' != null">
         createtime,
       </if>
     </trim>
@@ -97,14 +220,16 @@
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
       </if>
-      <if test="status != null">
-        #{status,jdbcType=INTEGER},
+      <if test="state != null and state != '' != null">
+        #{state,jdbcType=INTEGER},
       </if>
       <if test="createtime != null">
-        #{createtime,jdbcType=TIMESTAMP},
+        #{createtime},
       </if>
     </trim>
   </insert>
+
+
   <update id="updateByPrimaryKeySelective" parameterType="com.example.user.po.Orders">
     <!--@mbg.generated-->
     update orders
@@ -139,18 +264,12 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.example.user.po.Orders">
+
+<!--  修改订单地址-->
+  <update id="updateByPrimaryKey" parameterType="com.example.user.dto.UpdateOrderAddressDTO">
     <!--@mbg.generated-->
     update orders
-    set ordernum = #{ordernum,jdbcType=VARCHAR},
-      businessId = #{businessid,jdbcType=VARCHAR},
-      customerId = #{customerid,jdbcType=VARCHAR},
-      price = #{price,jdbcType=FLOAT},
-      deposit = #{deposit,jdbcType=FLOAT},
-      addressId = #{addressid,jdbcType=INTEGER},
-      remark = #{remark,jdbcType=VARCHAR},
-      `status` = #{status,jdbcType=INTEGER},
-      createtime = #{createtime,jdbcType=TIMESTAMP}
+    set addressId = #{addressid,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

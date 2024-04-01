@@ -1,5 +1,6 @@
 package com.example.user.service;
 
+import com.example.user.dto.CreateOrderDTO;
 import com.example.user.po.Orderitems;
 public interface OrderitemsService{
 
@@ -8,7 +9,7 @@ public interface OrderitemsService{
 
     int insert(Orderitems record);
 
-    int insertSelective(Orderitems record);
+    int insertSelective(CreateOrderDTO createOrderDTO);
 
     Orderitems selectByPrimaryKey(Integer id);
 

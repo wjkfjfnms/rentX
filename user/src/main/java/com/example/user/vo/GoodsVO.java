@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -17,6 +18,9 @@ public class GoodsVO {
      */
     @ApiModelProperty(value="商品id")
     private Integer id;
+
+    @ApiModelProperty(value = "所属商家id")
+    private Long userId;
 
     /**
      * 类别
@@ -92,4 +96,13 @@ public class GoodsVO {
      */
     @ApiModelProperty(value="套餐")
     private List<ComboVO> comboVOList;
+    private Date uploadTime;
+
+    public Date getUploadTime() {
+        return uploadTime;
+    }
+
+    public void setUploadTime(Date uploadTime) {
+        this.uploadTime = uploadTime;
+    }
 }

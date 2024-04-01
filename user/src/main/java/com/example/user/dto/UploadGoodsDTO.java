@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.sql.Date;
 import java.util.List;
 
 @Data
@@ -66,6 +67,9 @@ public class UploadGoodsDTO {
 
     @ApiModelProperty(value="商品图片（1张）")
     private MultipartFile file;
+
+    @ApiModelProperty(value="上架时间")
+    private Date uploadTime;
 
     /**
      * 类别

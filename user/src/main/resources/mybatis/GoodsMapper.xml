@@ -5,6 +5,7 @@
     <!--@mbg.generated-->
     <!--@Table goods-->
     <id column="id" jdbcType="INTEGER" property="id" />
+    <id column="userId" jdbcType="BIGINT" property="userId" />
     <result column="categoryId" jdbcType="INTEGER" property="categoryId" />
     <result column="brand" jdbcType="VARCHAR" property="brand" />
     <result column="goodsName" jdbcType="VARCHAR" property="goodsname" />
@@ -14,6 +15,7 @@
     <result column="buyoutPrice" jdbcType="FLOAT" property="buyoutprice" />
     <result column="goodsPicture" jdbcType="VARCHAR" property="goodspicture" />
     <result column="state" jdbcType="VARCHAR" property="state" />
+    <result column="uploadTime" jdbcType="DATE" property="uploadTime" />
     <collection property="goodsDetailVOList" ofType="com.example.user.vo.GoodsDetailVO">
       <id column="gdid" jdbcType="INTEGER" property="id" />
       <result column="address" jdbcType="VARCHAR" property="address" />
@@ -36,7 +38,7 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     <!--@mbg.generated-->
     SELECT
-    g.id, g.categoryId, g.brand, g.goodsName, g.description, g.price, g.buyout, g.buyoutPrice, g.goodsPicture,g.state,
+    g.id, g.userId, g.categoryId, g.brand, g.goodsName, g.description, g.price, g.buyout, g.buyoutPrice, g.goodsPicture,g.state,g.uploadTime,
     gd.address , gd.id gdid, q.id qid,q.quality,c.id cid,c.comboName
     FROM
     goods g
@@ -152,6 +154,9 @@
       <if test="goodspicture != null">
         goodsPicture,
       </if>
+      <if test="uploadTime != null">
+        uploadTime,
+      </if>
         state
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -184,6 +189,9 @@
       </if>
       <if test="goodspicture != null">
         #{goodspicture,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadTime != null">
+        #{uploadTime},
       </if>
       '在售'
     </trim>

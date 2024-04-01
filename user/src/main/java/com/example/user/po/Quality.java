@@ -33,4 +33,6 @@ public class Quality {
     */
     @ApiModelProperty(value="成色状态")
     private String state;
+
+
 }

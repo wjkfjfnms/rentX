@@ -63,7 +63,7 @@ public class Orders {
     * 订单状态
     */
     @ApiModelProperty(value="订单状态")
-    private Integer status;
+    private String status;
 
     /**
     * 订单创建时间

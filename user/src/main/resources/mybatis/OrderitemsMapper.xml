@@ -20,7 +20,7 @@
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     <!--@mbg.generated-->
-    select 
+    select
     <include refid="Base_Column_List" />
     from orderitems
     where id = #{id,jdbcType=INTEGER}
@@ -32,18 +32,18 @@
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.example.user.po.Orderitems" useGeneratedKeys="true">
     <!--@mbg.generated-->
-    insert into orderitems (orderId, goodsId, `number`, 
-      itemPrice, itemDeposit, comboId, 
+    insert into orderitems (orderId, goodsId, `number`,
+      itemPrice, itemDeposit, comboId,
       leaseTime, `state`)
-    values (#{orderid,jdbcType=INTEGER}, #{goodsid,jdbcType=INTEGER}, #{number,jdbcType=INTEGER}, 
-      #{itemprice,jdbcType=FLOAT}, #{itemdeposit,jdbcType=FLOAT}, #{comboid,jdbcType=INTEGER}, 
+    values (#{orderid,jdbcType=INTEGER}, #{goodsid,jdbcType=INTEGER}, #{number,jdbcType=INTEGER},
+      #{itemprice,jdbcType=FLOAT}, #{itemdeposit,jdbcType=FLOAT}, #{comboid,jdbcType=INTEGER},
       #{leasetime,jdbcType=INTEGER}, #{state,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.example.user.po.Orderitems" useGeneratedKeys="true">
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.example.user.dto.CreateOrderDTO" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into orderitems
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="orderid != null">
+      <if test="id != null">
         orderId,
       </if>
       <if test="goodsid != null">
@@ -67,10 +67,13 @@
       <if test="state != null">
         `state`,
       </if>
+      <if test="qualityId != null">
+        qualityId,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="orderid != null">
-        #{orderid,jdbcType=INTEGER},
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
       </if>
       <if test="goodsid != null">
         #{goodsid,jdbcType=INTEGER},
@@ -92,6 +95,9 @@
       </if>
       <if test="state != null">
         #{state,jdbcType=INTEGER},
+      </if>
+      <if test="qualityId != null">
+        #{qualityId,jdbcType=INTEGER}
       </if>
     </trim>
   </insert>

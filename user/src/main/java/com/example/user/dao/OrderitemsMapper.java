@@ -1,6 +1,7 @@
 package com.example.user.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.example.user.dto.CreateOrderDTO;
 import com.example.user.po.Orderitems;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -22,10 +23,10 @@ public interface OrderitemsMapper extends BaseMapper {
 
     /**
      * insert record to table selective
-     * @param record the record
+     * @param createOrderDTO the record
      * @return insert count
      */
-    int insertSelective(Orderitems record);
+    int insertSelective(CreateOrderDTO createOrderDTO);
 
     /**
      * select by primary key

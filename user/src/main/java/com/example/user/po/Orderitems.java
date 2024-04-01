@@ -52,6 +52,9 @@ public class Orderitems {
     @ApiModelProperty(value="套餐id")
     private Integer comboid;
 
+    @ApiModelProperty(value="成色id")
+    private Integer qualityId;
+
     /**
     * 租期（天）
     */
@@ -62,5 +65,5 @@ public class Orderitems {
     * 订单状态
     */
     @ApiModelProperty(value="订单状态")
-    private Integer state;
+    private String state;
 }

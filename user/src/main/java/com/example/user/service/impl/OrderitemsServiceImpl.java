@@ -1,5 +1,6 @@
 package com.example.user.service.impl;
 
+import com.example.user.dto.CreateOrderDTO;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import com.example.user.dao.OrderitemsMapper;
@@ -22,8 +23,8 @@ public class OrderitemsServiceImpl implements OrderitemsService{
     }
 
     @Override
-    public int insertSelective(Orderitems record) {
-        return orderitemsMapper.insertSelective(record);
+    public int insertSelective(CreateOrderDTO createOrderDTO) {
+        return orderitemsMapper.insertSelective(createOrderDTO);
     }
 
     @Override
