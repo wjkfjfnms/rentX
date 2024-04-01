@@ -202,6 +202,24 @@
     </trim>
   </insert>
 
+  <resultMap id="favoritesMap" type="integer">
+    <id column="favorites" jdbcType="INTEGER" property="favorites" />
+  </resultMap>
+
+
+<!--&lt;!&ndash;  根据商品id获取收藏量&ndash;&gt;-->
+<!--  <select id="findFavorites" parameterType="integer" resultMap="favoritesMap">-->
+<!--    select favorites-->
+<!--    from goods-->
+<!--    where id = #{id,jdbcType=INTEGER}-->
+<!--  </select>-->
+
+<!--&lt;!&ndash;  增加收藏量&ndash;&gt;-->
+<!--  <update id="addFavorites" parameterType="integer">-->
+<!--    update goods-->
+<!--    set favorites = #{f,jdbcType=INTEGER}-->
+<!--    where id = #{id,jdbcType=INTEGER}-->
+<!--  </update>-->
 
   <!--  下架商品-->
   <update id="updateState" parameterType="com.example.user.dto.UpdateStateDTO">
@@ -213,8 +231,8 @@
 <!--  收藏量+1-->
   <update id="updateFavorites" parameterType="integer">
     update goods
-    set favorites = #{shoucang,jdbcType=INTEGER}
-    where id = #{id,jdbcType=INTEGER}
+    set favorites = #{arg1,jdbcType=INTEGER}
+    where id = #{arg0,jdbcType=INTEGER}
   </update>
 
 <!--  获取收藏量-->

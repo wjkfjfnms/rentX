@@ -80,4 +80,8 @@ public interface GoodsMapper extends BaseMapper<Goods> {
     int updateByPrimaryKey(Goods record);
 
     IPage<Goods> searchGoods(String keyword,Page<PagePara> page, @Param("par")PagePara pagePara);
+
+//    Integer findFavorites(Integer id);
+//
+//    int addFavorites(Integer id,Integer f);
 }

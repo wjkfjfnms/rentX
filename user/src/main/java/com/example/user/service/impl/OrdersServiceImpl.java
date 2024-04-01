@@ -80,6 +80,10 @@ public class OrdersServiceImpl implements OrdersService{
         createOrderDTO.setOrdernum(randomNum.toString());
         if (ordersMapper.insertSelective(createOrderDTO) != 0){
             if (orderitemsMapper.insertSelective(createOrderDTO) != 0){
+//                销量+1
+                int shoucang = goodsMapper.getFavorites(createOrderDTO.getGoodsid()).getFavorites();
+                shoucang++;
+                goodsMapper.updateFavorites(createOrderDTO.getGoodsid(),shoucang);
 //                查询订单信息
                 OrderVO result = ordersMapper.findById(createOrderDTO.getId());
                 return RE.ok().data("result",result);
