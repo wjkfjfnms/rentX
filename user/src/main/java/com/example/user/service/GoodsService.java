@@ -8,6 +8,9 @@ import com.example.user.po.Users;
 import com.example.user.vo.GoodsVO;
 import com.example.user.vo.PagePara;
 import com.example.user.vo.RE;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 public interface GoodsService extends IService<Goods> {
 
@@ -18,14 +21,14 @@ public interface GoodsService extends IService<Goods> {
     RE hostGoods();
 
 //    分页查询
-    RE findMyGoods( PagePara pagePara);
+    RE findMyGoods(PagePara pagePara);
 
     int deleteByPrimaryKey(Integer id);
 
     int insert(Goods record);
 
 //    上传商品信息
-    RE insertSelective(UploadGoodsDTO uploadGoodsDTO);
+    RE insertSelective(UploadGoodsDTO uploadGoodsDTO, List<MultipartFile> multipartFileList, MultipartFile multipartFile);
 
 //    根据主键查找商品信息
     RE selectByPrimaryKey(Integer id);
@@ -46,5 +49,8 @@ public interface GoodsService extends IService<Goods> {
     RE stopGoods(Integer id);
 
     int updateByPrimaryKey(Goods record);
+
+//    模糊查询商品
+    RE searchGoods(PagePara pagePara,String keyword);
 
 }

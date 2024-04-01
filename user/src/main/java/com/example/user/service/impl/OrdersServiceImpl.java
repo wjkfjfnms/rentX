@@ -6,6 +6,7 @@ import com.example.user.dao.GoodsMapper;
 import com.example.user.dao.OrderitemsMapper;
 import com.example.user.dto.CreateOrderDTO;
 import com.example.user.dto.UpdateOrderAddressDTO;
+import com.example.user.dto.UpdateOrderStatusDTO;
 import com.example.user.po.Address;
 import com.example.user.service.CommonService;
 import com.example.user.service.UsersService;
@@ -79,6 +80,10 @@ public class OrdersServiceImpl implements OrdersService{
         createOrderDTO.setOrdernum(randomNum.toString());
         if (ordersMapper.insertSelective(createOrderDTO) != 0){
             if (orderitemsMapper.insertSelective(createOrderDTO) != 0){
+//                销量+1
+                int shoucang = goodsMapper.getFavorites(createOrderDTO.getGoodsid()).getFavorites();
+                shoucang++;
+                goodsMapper.updateFavorites(createOrderDTO.getGoodsid(),shoucang);
 //                查询订单信息
                 OrderVO result = ordersMapper.findById(createOrderDTO.getId());
                 return RE.ok().data("result",result);
@@ -157,6 +162,15 @@ public class OrdersServiceImpl implements OrdersService{
             }
         }
         return RE.error().message("订单已发货，无法修改地址！");
+    }
+
+    @Override
+    public RE updateOrderStatus(UpdateOrderStatusDTO updateOrderStatusDTO) {
+        if (ordersMapper.updateOrderStatus(updateOrderStatusDTO) != 0){
+//            返回订单信息
+            return RE.ok().data("result",orderitemsMapper.selectByPrimaryKey(updateOrderStatusDTO.getId()));
+        }
+        return RE.error();
     }
 
 }

@@ -69,11 +69,6 @@ public class CreateOrderDTO {
     @ApiModelProperty(value="成色id")
     private Integer qualityId;
 
-    /**
-     * 订单创建时间
-     */
-    @ApiModelProperty(value="订单创建时间")
-    private Date createtime;
 
     /**
      * 订单状态

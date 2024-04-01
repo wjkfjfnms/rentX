@@ -2,6 +2,7 @@ package com.example.user.controller;
 
 import com.example.user.dto.UpdateGoodsDTO;
 import com.example.user.dto.UploadGoodsDTO;
+import com.example.user.po.Goodsdetail;
 import com.example.user.service.GoodsService;
 import com.example.user.vo.PagePara;
 import com.example.user.vo.RE;
@@ -11,6 +12,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -28,8 +32,8 @@ public class GoodsController {
 
     @ApiOperation(value = "新增商品接口")
     @PostMapping("/addGoods")
-    public RE addGoods(@Validated @RequestBody UploadGoodsDTO uploadGoodsDTO){
-        return goodsService.insertSelective(uploadGoodsDTO);
+    public RE addGoods(UploadGoodsDTO uploadGoodsDTO, List<MultipartFile> multipartFileList,MultipartFile multipartFile){
+        return goodsService.insertSelective(uploadGoodsDTO,multipartFileList,multipartFile);
     }
 
     @ApiOperation(value = "修改商品信息接口")
@@ -64,6 +68,24 @@ public class GoodsController {
     @GetMapping("/findMyGoods")
     public RE findMyGoods( PagePara pagePara){
         return goodsService.findMyGoods(pagePara);
+    }
+
+    @ApiOperation(value = "最近上新")
+    @GetMapping("/RecentlyNew")
+    public RE RecentlyNew(){
+        return goodsService.RecentlyNew();
+    }
+
+    @ApiOperation(value = "热销推荐")
+    @GetMapping("/hostGoods")
+    public RE hostGoods(){
+        return goodsService.hostGoods();
+    }
+
+    @ApiOperation(value = "模糊搜索")
+    @GetMapping("/searchGoods")
+    public RE searchGoods(PagePara pagePara,String keyword){
+        return goodsService.searchGoods(pagePara,keyword);
     }
 
 }

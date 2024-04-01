@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.user.dto.CreateOrderDTO;
 import com.example.user.dto.UpdateOrderAddressDTO;
+import com.example.user.dto.UpdateOrderStatusDTO;
 import com.example.user.po.Address;
 import com.example.user.po.Orders;
 import com.example.user.vo.OrderVO;
@@ -70,5 +71,8 @@ public interface OrdersMapper extends BaseMapper {
 
 //    分页查询商家的订单
     IPage<OrderVO> findMyOrderByBusinessId(@Param("id")Long id,Page<PagePara> page, @Param("par")PagePara pagePara);
+
+//   修改订单状态
+    int updateOrderStatus(UpdateOrderStatusDTO updateOrderStatusDTO);
 
 }

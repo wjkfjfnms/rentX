@@ -2,6 +2,7 @@ package com.example.user.service;
 
 import com.example.user.dto.CreateOrderDTO;
 import com.example.user.dto.UpdateOrderAddressDTO;
+import com.example.user.dto.UpdateOrderStatusDTO;
 import com.example.user.po.Address;
 import com.example.user.po.Orders;
 import com.example.user.vo.PagePara;
@@ -27,5 +28,8 @@ public interface OrdersService{
 
 //    修改订单地址信息
     RE updateByPrimaryKey(UpdateOrderAddressDTO updateOrderAddressDTO);
+
+//    修改订单状态
+    RE updateOrderStatus(UpdateOrderStatusDTO updateOrderStatusDTO);
 
 }

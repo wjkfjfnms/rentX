@@ -3,6 +3,7 @@ package com.example.user.controller;
 
 import com.example.user.dto.CreateOrderDTO;
 import com.example.user.dto.UpdateOrderAddressDTO;
+import com.example.user.dto.UpdateOrderStatusDTO;
 import com.example.user.service.OrdersService;
 import com.example.user.vo.PagePara;
 import com.example.user.vo.RE;
@@ -43,8 +44,14 @@ public class OrderController {
 
     @ApiOperation(value = "用户修改订单地址")
     @PutMapping("/updateOrderAddress")
-    public RE updateOrderAddress(UpdateOrderAddressDTO updateOrderAddressDTO){
+    public RE updateOrderAddress(@Validated @RequestBody UpdateOrderAddressDTO updateOrderAddressDTO){
         return ordersService.updateByPrimaryKey(updateOrderAddressDTO);
+    }
+
+    @ApiOperation(value = "修改订单状态")
+    @PutMapping("/updateOrderStatus")
+    public RE updateOrderStatus(@Validated @RequestBody UpdateOrderStatusDTO updateOrderStatusDTO){
+        return ordersService.updateOrderStatus(updateOrderStatusDTO);
     }
 
 }
