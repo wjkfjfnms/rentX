@@ -70,9 +70,7 @@
       <if test="address != null">
         address,
       </if>
-      <if test="state != null">
-        state,
-      </if>
+        state
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="userid != null">
@@ -90,9 +88,7 @@
       <if test="address != null">
         #{address,jdbcType=VARCHAR},
       </if>
-      <if test="state != null">
-        0,
-      </if>
+        0
     </trim>
   </insert>
 
