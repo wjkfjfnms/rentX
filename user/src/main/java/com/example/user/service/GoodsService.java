@@ -8,6 +8,9 @@ import com.example.user.po.Users;
 import com.example.user.vo.GoodsVO;
 import com.example.user.vo.PagePara;
 import com.example.user.vo.RE;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 public interface GoodsService extends IService<Goods> {
 
@@ -25,7 +28,7 @@ public interface GoodsService extends IService<Goods> {
     int insert(Goods record);
 
 //    上传商品信息
-    RE insertSelective(UploadGoodsDTO uploadGoodsDTO);
+    RE insertSelective(UploadGoodsDTO uploadGoodsDTO, List<MultipartFile> multipartFileList, MultipartFile multipartFile);
 
 //    根据主键查找商品信息
     RE selectByPrimaryKey(Integer id);

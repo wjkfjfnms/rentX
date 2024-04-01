@@ -97,9 +97,20 @@
   <select id="hostGoods" resultMap="PageResultMap">
     select *
     from goods
+    where state = '在售'
     ORDER BY favorites DESC
-    LIMIT 5
+    LIMIT 8
   </select>
+
+<!--  模糊查询商品-->
+  <select id="searchGoods" resultMap="PageResultMap" parameterType="String">
+    select *
+    from goods
+    where brand like CONCAT('%', #{keyword}, '%')
+    or goodsName like CONCAT('%', #{keyword}, '%')
+    or description like CONCAT('%', #{keyword}, '%')
+  </select>
+
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     <!--@mbg.generated-->

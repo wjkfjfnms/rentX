@@ -19,6 +19,11 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 
 import com.example.user.service.GoodsService;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
+import java.util.Map;
+
 @Service
 public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements GoodsService{
 
@@ -94,7 +99,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     }
 
     @Override
-    public RE insertSelective(UploadGoodsDTO uploadGoodsDTO) {
+    public RE insertSelective(UploadGoodsDTO uploadGoodsDTO, List<MultipartFile> multipartFileList, MultipartFile multipartFile) {
         if (uploadGoodsDTO == null){
             return RE.error().message("参数为空！");
         }
@@ -112,7 +117,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
             return RE.error().message("您的商店已存在同名商品！");
         }
 //        在商品表添加信息
-        uploadGoodsDTO.setGoodspicture(uploadImageService.upload(uploadGoodsDTO.getFile()));
+        uploadGoodsDTO.setGoodspicture(uploadImageService.upload(multipartFile).get("name"));
         int re = goodsMapper.insertSelective(uploadGoodsDTO);
         if (re == 0){
             return RE.error().message("商品添加失败,请重新上传！");
@@ -143,13 +148,14 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
             }
         }
 //        在详情表添加信息
-        if(uploadGoodsDTO.getGoodsdetailList() == null || uploadGoodsDTO.getGoodsdetailList().isEmpty()) {
+        if(multipartFileList == null || multipartFileList.isEmpty()) {
             return RE.error().message("详情图片列表为空");
         }
-        for (Goodsdetail goodsDetail : uploadGoodsDTO.getGoodsdetailList()){
-            goodsDetail.setGoodsid(uploadGoodsDTO.getId());
+        Goodsdetail goodsDetail = new Goodsdetail();
+        goodsDetail.setGoodsid(uploadGoodsDTO.getId());
+        for (MultipartFile MF : multipartFileList){
 //            获取图片地址
-            goodsDetail.setAddress(uploadImageService.upload(goodsDetail.getFile()));
+            goodsDetail.setAddress(uploadImageService.upload(MF).get("name"));
             if (goodsdetailMapper.insertSelective(goodsDetail) == 0){
                 return RE.error().message("详情图片信息上传失败，请重新上传！");
             }
