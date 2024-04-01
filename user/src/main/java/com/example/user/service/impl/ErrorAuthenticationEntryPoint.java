@@ -14,7 +14,7 @@ import java.io.Serializable;
 
 @Component
 public class ErrorAuthenticationEntryPoint implements AuthenticationEntryPoint, Serializable {
-    private static final long serialVersionUID = 5200068540912465653L;
+//    private static final long serialVersionUID = 5200068540912465653L;
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response,
                          AuthenticationException authException) throws IOException {

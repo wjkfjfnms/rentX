@@ -68,7 +68,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/webjars/**",
                         "/v3/api-docs",
                         "/pay",
-                        "/notify")
+                        "/notify",
+                        "/img/**")
                 .permitAll().anyRequest().authenticated();
         // 添加拦截器
         httpSecurity.addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class);
