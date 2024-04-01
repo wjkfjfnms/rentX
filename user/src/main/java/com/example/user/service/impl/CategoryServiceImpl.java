@@ -1,10 +1,14 @@
 package com.example.user.service.impl;
 
+import com.example.user.vo.RE;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import com.example.user.dao.CategoryMapper;
 import com.example.user.po.Category;
 import com.example.user.service.CategoryService;
+
+import java.util.List;
+
 @Service
 public class CategoryServiceImpl implements CategoryService{
 
@@ -22,8 +26,29 @@ public class CategoryServiceImpl implements CategoryService{
     }
 
     @Override
-    public int insertSelective(Category record) {
-        return categoryMapper.insertSelective(record);
+    public RE insertSelective(Category record) {
+        if (categoryMapper.insertSelective(record) != 0){
+            Category category = categoryMapper.selectByPrimaryKey(record.getId());
+            return RE.ok().data("result",category);
+        }
+        return RE.error();
+    }
+
+    @Override
+    public RE deleteCategory(Integer id) {
+        if (categoryMapper.deleteCategory(id) != 0){
+            return RE.ok();
+        }
+        return RE.error();
+    }
+
+    @Override
+    public RE selectAll() {
+        List<Category> categoryList = categoryMapper.selectAll();
+        if (categoryList != null){
+            return RE.ok().data("result",categoryList);
+        }
+        return RE.error();
     }
 
     @Override

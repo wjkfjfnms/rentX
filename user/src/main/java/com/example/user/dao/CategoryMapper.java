@@ -4,10 +4,12 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.example.user.po.Category;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 @Mapper
 public interface CategoryMapper extends BaseMapper {
 
-    Category selectAll();
+    List<Category> selectAll();
 
     Category selectByCategory(String category);
 
@@ -52,4 +54,7 @@ public interface CategoryMapper extends BaseMapper {
      * @return update count
      */
     int updateByPrimaryKey(Category record);
+
+//    删除类别
+    int deleteCategory(Integer id);
 }

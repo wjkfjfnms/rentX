@@ -46,6 +46,8 @@
     insert into category (TypeName, `state`)
     values (#{typename,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER})
   </insert>
+
+<!--  新增类别-->
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.example.user.po.Category" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into category
@@ -53,19 +55,18 @@
       <if test="typename != null">
         TypeName,
       </if>
-      <if test="state != null">
-        `state`,
-      </if>
+        `state`
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="typename != null">
         #{typename,jdbcType=VARCHAR},
       </if>
-      <if test="state != null">
-        #{state,jdbcType=INTEGER},
-      </if>
+        0
     </trim>
   </insert>
+
+
+
   <update id="updateByPrimaryKeySelective" parameterType="com.example.user.po.Category">
     <!--@mbg.generated-->
     update category
@@ -79,6 +80,17 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+<!--  删除类别-->
+  <update id="deleteCategory" parameterType="integer">
+    update category
+    set state = 1
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+
+
   <update id="updateByPrimaryKey" parameterType="com.example.user.po.Category">
     <!--@mbg.generated-->
     update category
