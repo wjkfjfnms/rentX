@@ -40,6 +40,9 @@ spring:
     mybatis:
       configuration:
         map-underscore-to-camel-case: true
+    servlet:
+      multipart:
+        max-file-size: 10MB
       # 支付配置
     alipay:
       appId: 9021000135674906
