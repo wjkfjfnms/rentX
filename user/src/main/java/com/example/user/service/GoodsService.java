@@ -28,7 +28,7 @@ public interface GoodsService extends IService<Goods> {
     int insert(Goods record);
 
 //    上传商品信息
-    RE insertSelective(UploadGoodsDTO uploadGoodsDTO, List<MultipartFile> multipartFileList, MultipartFile multipartFile);
+    RE insertSelective(UploadGoodsDTO uploadGoodsDTO,MultipartFile multipartFileDetail, MultipartFile multipartFile);
 
 //    根据主键查找商品信息
     RE selectByPrimaryKey(Integer id);
