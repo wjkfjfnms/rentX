@@ -99,7 +99,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     }
 
     @Override
-    public RE insertSelective(UploadGoodsDTO uploadGoodsDTO, List<MultipartFile> multipartFileList, MultipartFile multipartFile) {
+    public RE insertSelective(UploadGoodsDTO uploadGoodsDTO, MultipartFile multipartFileDetail, MultipartFile multipartFile) {
         if (uploadGoodsDTO == null){
             return RE.error().message("参数为空！");
         }
@@ -148,17 +148,15 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
             }
         }
 //        在详情表添加信息
-        if(multipartFileList == null || multipartFileList.isEmpty()) {
+        if(multipartFileDetail == null || multipartFileDetail.isEmpty()) {
             return RE.error().message("详情图片列表为空");
         }
         Goodsdetail goodsDetail = new Goodsdetail();
         goodsDetail.setGoodsid(uploadGoodsDTO.getId());
-        for (MultipartFile MF : multipartFileList){
 //            获取图片地址
-            goodsDetail.setAddress(uploadImageService.upload(MF).get("name"));
-            if (goodsdetailMapper.insertSelective(goodsDetail) == 0){
-                return RE.error().message("详情图片信息上传失败，请重新上传！");
-            }
+        goodsDetail.setAddress(uploadImageService.upload(multipartFileDetail).get("name"));
+        if (goodsdetailMapper.insertSelective(goodsDetail) == 0){
+            return RE.error().message("详情图片信息上传失败，请重新上传！");
         }
 //        返回上传后的商品信息
         GoodsVO upload = goodsMapper.selectByPrimaryKey(uploadGoodsDTO.getId());
