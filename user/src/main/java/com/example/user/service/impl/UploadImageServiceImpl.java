@@ -9,16 +9,21 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
 @Transactional
 public class UploadImageServiceImpl implements UploadImageService {
     @Override
-    public String upload(MultipartFile file) {
+    public Map<String, String> upload(MultipartFile file) {
+        Map<String, String> res = new HashMap<>();
+
         //图片校验（图片是否为空,图片大小，上传的是不是图片、图片类型（例如只能上传png）等等）
         if (file.isEmpty()) {
-            return "图片上传失败";
+            res.put("msg", "图片上传失败");
+            return res;
         }
         //可以自己加一点校验 例如上传的是不是图片或者上传的文件是不是png格式等等 这里省略
         //获取原来的文件名和后缀
@@ -37,6 +42,8 @@ public class UploadImageServiceImpl implements UploadImageService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return path;
+        res.put("name", newName);
+        res.put("path", path);
+        return res;
     }
 }
