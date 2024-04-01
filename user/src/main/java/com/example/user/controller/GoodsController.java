@@ -82,4 +82,10 @@ public class GoodsController {
         return goodsService.hostGoods();
     }
 
+    @ApiOperation(value = "模糊搜索")
+    @GetMapping("/searchGoods")
+    public RE searchGoods(PagePara pagePara,String keyword){
+        return goodsService.searchGoods(pagePara,keyword);
+    }
+
 }

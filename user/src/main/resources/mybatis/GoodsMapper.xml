@@ -106,9 +106,9 @@
   <select id="searchGoods" resultMap="PageResultMap" parameterType="String">
     select *
     from goods
-    where brand like CONCAT('%', #{keyword}, '%')
-    or goodsName like CONCAT('%', #{keyword}, '%')
-    or description like CONCAT('%', #{keyword}, '%')
+    where brand like CONCAT('%', #{arg0}, '%')
+    or goodsName like CONCAT('%', #{arg0}, '%')
+    or description like CONCAT('%', #{arg0}, '%')
   </select>
 
 

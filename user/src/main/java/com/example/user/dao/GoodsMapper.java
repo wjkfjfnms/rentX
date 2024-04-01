@@ -79,5 +79,5 @@ public interface GoodsMapper extends BaseMapper<Goods> {
      */
     int updateByPrimaryKey(Goods record);
 
-    IPage<Goods> searchGoods(Page<PagePara> page, @Param("par")PagePara pagePara);
+    IPage<Goods> searchGoods(String keyword,Page<PagePara> page, @Param("par")PagePara pagePara);
 }

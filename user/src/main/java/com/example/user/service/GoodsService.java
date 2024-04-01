@@ -21,7 +21,7 @@ public interface GoodsService extends IService<Goods> {
     RE hostGoods();
 
 //    分页查询
-    RE findMyGoods( PagePara pagePara);
+    RE findMyGoods(PagePara pagePara);
 
     int deleteByPrimaryKey(Integer id);
 
@@ -49,5 +49,8 @@ public interface GoodsService extends IService<Goods> {
     RE stopGoods(Integer id);
 
     int updateByPrimaryKey(Goods record);
+
+//    模糊查询商品
+    RE searchGoods(PagePara pagePara,String keyword);
 
 }
