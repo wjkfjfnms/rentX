@@ -3,11 +3,9 @@ package com.example.user.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.user.constant.RedisConstant;
-import com.example.user.dto.CodeLoginDTO;
-import com.example.user.dto.GetEmailCodeDTO;
-import com.example.user.dto.PasswordLoginDTO;
-import com.example.user.dto.RegisterDTO;
+import com.example.user.dto.*;
 import com.example.user.enums.HttpStatusEnum;
+import com.example.user.service.UploadImageService;
 import com.example.user.util.StringUtil;
 import com.example.user.util.TokenUtils;
 import com.example.user.vo.RE;
@@ -38,6 +36,9 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
 
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
+
+    @Autowired
+    private UploadImageService uploadImageService;
 
     @Override
     public int deleteByPrimaryKey(Long id) {
@@ -284,8 +285,13 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
     }
 
     @Override
-    public int updateByPrimaryKeySelective(Users record) {
-        return usersMapper.updateByPrimaryKeySelective(record);
+    public RE updateByPrimaryKeySelective(UpdateUserDTO updateUserDTO) {
+        updateUserDTO.setTouxiang(uploadImageService.upload(updateUserDTO.getMultipartFile()).get("name"));
+        if (usersMapper.updateByPrimaryKeySelective(updateUserDTO) != 0){
+            Users users = usersMapper.selectByPrimaryKey(updateUserDTO.getId());
+            return RE.ok().data("result",users);
+        }
+        return RE.error();
     }
 
     @Override

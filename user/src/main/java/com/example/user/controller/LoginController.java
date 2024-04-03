@@ -73,6 +73,12 @@ public class LoginController {
     }
 
 
+    @ApiOperation(value = "修改用户个人信息接口")
+    @PutMapping("/updateUser")
+    public RE updateByPrimaryKeySelective(UpdateUserDTO updateUserDTO){
+        return usersService.updateByPrimaryKeySelective(updateUserDTO);
+    }
+
 //
 //    /** 这是登录用户才可以看到的内容 */
 //    @PostMapping(value = "/message")

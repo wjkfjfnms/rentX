@@ -2,6 +2,7 @@ package com.example.user.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.example.user.dto.RegisterDTO;
+import com.example.user.dto.UpdateUserDTO;
 import com.example.user.po.Users;
 import com.example.user.vo.userVO;
 import org.apache.ibatis.annotations.Mapper;
@@ -54,10 +55,10 @@ public interface UsersMapper extends BaseMapper<Users> {
 
     /**
      * update record selective
-     * @param record the updated record
+     * @param updateUserDTO the updated record
      * @return update count
      */
-    int updateByPrimaryKeySelective(Users record);
+    int updateByPrimaryKeySelective(UpdateUserDTO updateUserDTO);
 
     /**
      * update record

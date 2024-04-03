@@ -1,10 +1,7 @@
 package com.example.user.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.example.user.dto.CodeLoginDTO;
-import com.example.user.dto.GetEmailCodeDTO;
-import com.example.user.dto.PasswordLoginDTO;
-import com.example.user.dto.RegisterDTO;
+import com.example.user.dto.*;
 import com.example.user.po.Users;
 import com.example.user.vo.RE;
 
@@ -42,7 +39,8 @@ public interface UsersService extends IService<Users>{
 
     Users selectByPrimaryKey(Long id);
 
-    int updateByPrimaryKeySelective(Users record);
+//    修改用户信息
+    RE updateByPrimaryKeySelective(UpdateUserDTO updateUserDTO);
 
     int updateByPrimaryKey(Users record);
 

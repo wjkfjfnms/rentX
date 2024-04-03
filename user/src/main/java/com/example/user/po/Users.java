@@ -73,7 +73,7 @@ public class Users implements Serializable {
     /**
      * 身份
      */
-    @ApiModelProperty(value="身份（ADMIN/USER）")
+    @ApiModelProperty(value="身份（ADMIN/USER/MERCHANTS  管理员、客户、商家）")
     private String role;
 
     /**
@@ -81,4 +81,10 @@ public class Users implements Serializable {
      */
     @ApiModelProperty(value="昵称（10个字以内)")
     private String nickname;
+
+    @ApiModelProperty(value="真实姓名")
+    private String realname;
+
+    @ApiModelProperty(value="身份证号码")
+    private String idnumber;
 }
