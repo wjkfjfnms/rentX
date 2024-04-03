@@ -19,7 +19,7 @@ public class CorsConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/img/**").addResourceLocations("file:C:/Users/Lenovo/Desktop/flower/flower/src/main/resources/static/images/");
+        registry.addResourceHandler("/img/**").addResourceLocations("file:D:/Image/");
     }
 }
 

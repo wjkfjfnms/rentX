@@ -259,6 +259,8 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         }
 //        修改商品基本信息
         updateGoodsDTO.setGoodspicture(uploadImageService.upload(updateGoodsDTO.getFile()).get("name"));
+//        获取类别id
+        updateGoodsDTO.setCategoryId(categoryMapper.selectByCategory(updateGoodsDTO.getCategory()).getId());
         if (goodsMapper.updateByPrimaryKeySelective(updateGoodsDTO) != 0){
             GoodsVO goods = goodsMapper.selectByPrimaryKey(updateGoodsDTO.getId());
             return RE.ok().data("result",goods);

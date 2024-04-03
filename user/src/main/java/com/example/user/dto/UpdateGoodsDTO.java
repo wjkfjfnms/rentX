@@ -19,8 +19,11 @@ public class UpdateGoodsDTO {
     /**
      * 类别
      */
-    @ApiModelProperty(value="类别")
+    @ApiModelProperty(value="类别id")
     private Integer categoryId;
+
+    @ApiModelProperty(value="类别")
+    private String category;
 
     /**
      * 品牌

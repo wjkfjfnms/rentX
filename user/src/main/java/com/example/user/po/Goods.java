@@ -22,8 +22,11 @@ public class Goods {
     /**
     * 类别
     */
-    @ApiModelProperty(value="类别")
+    @ApiModelProperty(value="类别id")
     private Integer categoryId;
+
+    @ApiModelProperty(value="类别")
+    private String TypeName;
 
     /**
     * 品牌
