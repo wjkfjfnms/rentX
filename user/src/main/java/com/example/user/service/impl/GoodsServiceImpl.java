@@ -98,8 +98,84 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         return goodsMapper.insert(record);
     }
 
+//    @Override
+//    public RE insertSelective(UploadGoodsDTO uploadGoodsDTO, MultipartFile multipartFileDetail, MultipartFile multipartFile) {
+//        if (uploadGoodsDTO == null){
+//            return RE.error().message("参数为空！");
+//        }
+////        获取商家id
+//        Long userId = commonService.getUsersDetails().getId();
+////        获取类别
+//        Integer categoryId = categoryMapper.selectByCategory(uploadGoodsDTO.getCategory()).getId();
+//        if (categoryId == null){
+//            return RE.error().message("无法找到该类别,请输入有效类别！");
+//        }
+//        uploadGoodsDTO.setUserId(Math.toIntExact(userId));
+//        uploadGoodsDTO.setCategoryId(categoryId);
+////        查看商品表是否已存在同名商品
+//        if (goodsMapper.selectByGoodsName(uploadGoodsDTO) != null){
+//            return RE.error().message("您的商店已存在同名商品！");
+//        }
+////        在商品表添加信息
+//        uploadGoodsDTO.setGoodspicture(uploadImageService.upload(multipartFile).get("name"));
+//        int re = goodsMapper.insertSelective(uploadGoodsDTO);
+//        if (re == 0){
+//            return RE.error().message("商品添加失败,请重新上传！");
+//        }
+////        检查传入的套餐列表是否为空
+//        // 检查传入的套餐列表是否为空
+//        if(uploadGoodsDTO.getComboList() == null || uploadGoodsDTO.getComboList().isEmpty()) {
+//            return RE.error().message("套餐列表不能为空");
+//        }
+////        在套餐表添加信息
+//        for(Combo combo : uploadGoodsDTO.getComboList()) {
+//            // 调用 ComboMapper 中的方法将套餐信息添加到数据库中
+//            combo.setGoodsid(uploadGoodsDTO.getId());
+//            int ree = comboMapper.insertSelective(combo);
+//            if (ree == 0){
+//                return RE.error().message("套餐、成色、详情图片信息上传失败，请重新上传！");
+//            }
+//        }
+//        // 检查传入的列表是否为空
+//        if(uploadGoodsDTO.getQualityList() == null || uploadGoodsDTO.getQualityList().isEmpty()) {
+//            return RE.error().message("成色列表不能为空");
+//        }
+////        在成色表添加信息
+//        for (Quality quality : uploadGoodsDTO.getQualityList()){
+//            quality.setGoodsid(uploadGoodsDTO.getId());
+//            if (qualityMapper.insertSelective(quality) == 0){
+//                return RE.error().message("成色、详情图片信息上传失败，请重新上传！");
+//            }
+//        }
+////        在详情表添加信息
+////        if(multipartFileDetail == null || multipartFileDetail.isEmpty()) {
+////            return RE.error().message("详情图片列表为空");
+////        }
+//        if(uploadGoodsDTO.getGoodsdetailList() == null || uploadGoodsDTO.getGoodsdetailList().isEmpty()) {
+//            return RE.error().message("详情图片列表为空");
+//        }
+//
+//        Goodsdetail goodsDetail = new Goodsdetail();
+//        goodsDetail.setGoodsid(uploadGoodsDTO.getId());
+////            获取图片地址
+////        goodsDetail.setAddress(uploadImageService.upload(multipartFileDetail).get("name"));
+////        if (goodsdetailMapper.insertSelective(goodsDetail) == 0){
+////            return RE.error().message("详情图片信息上传失败，请重新上传！");
+////        }
+//        for (Goodsdetail gd : uploadGoodsDTO.getGoodsdetailList()){
+//            goodsDetail.setAddress(uploadImageService.upload(gd.getFile()).get("name"));
+//            if (goodsdetailMapper.insertSelective(goodsDetail) == 0){
+//                return RE.error().message("详情图片信息上传失败，请重新上传！");
+//            }
+//        }
+////        返回上传后的商品信息
+//        GoodsVO upload = goodsMapper.selectByPrimaryKey(uploadGoodsDTO.getId());
+//        return RE.ok().data("result",upload);
+//    }
+
+
     @Override
-    public RE insertSelective(UploadGoodsDTO uploadGoodsDTO, MultipartFile multipartFileDetail, MultipartFile multipartFile) {
+    public RE insertSelective(UploadGoodsDTO uploadGoodsDTO) {
         if (uploadGoodsDTO == null){
             return RE.error().message("参数为空！");
         }
@@ -117,7 +193,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
             return RE.error().message("您的商店已存在同名商品！");
         }
 //        在商品表添加信息
-        uploadGoodsDTO.setGoodspicture(uploadImageService.upload(multipartFile).get("name"));
+        uploadGoodsDTO.setGoodspicture(uploadImageService.upload(uploadGoodsDTO.getFile()).get("name"));
         int re = goodsMapper.insertSelective(uploadGoodsDTO);
         if (re == 0){
             return RE.error().message("商品添加失败,请重新上传！");
@@ -148,15 +224,18 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
             }
         }
 //        在详情表添加信息
-        if(multipartFileDetail == null || multipartFileDetail.isEmpty()) {
+        if(uploadGoodsDTO.getGoodsdetailList() == null || uploadGoodsDTO.getGoodsdetailList().isEmpty()) {
             return RE.error().message("详情图片列表为空");
         }
+
         Goodsdetail goodsDetail = new Goodsdetail();
         goodsDetail.setGoodsid(uploadGoodsDTO.getId());
 //            获取图片地址
-        goodsDetail.setAddress(uploadImageService.upload(multipartFileDetail).get("name"));
-        if (goodsdetailMapper.insertSelective(goodsDetail) == 0){
-            return RE.error().message("详情图片信息上传失败，请重新上传！");
+        for (Goodsdetail gd : uploadGoodsDTO.getGoodsdetailList()){
+            goodsDetail.setAddress(uploadImageService.upload(gd.getFile()).get("name"));
+            if (goodsdetailMapper.insertSelective(goodsDetail) == 0){
+                return RE.error().message("详情图片信息上传失败，请重新上传！");
+            }
         }
 //        返回上传后的商品信息
         GoodsVO upload = goodsMapper.selectByPrimaryKey(uploadGoodsDTO.getId());
