@@ -1,7 +1,12 @@
 package com.example.user.dto;
 
+import com.example.user.po.Combo;
+import com.example.user.po.Goodsdetail;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @Data
 public class UpdateGoodsDTO {
@@ -57,7 +62,9 @@ public class UpdateGoodsDTO {
      * 商品图片（1张）
      */
     @ApiModelProperty(value="商品图片（1张）")
-    private String goodspicture;
+    private MultipartFile file;
 
+    @ApiModelProperty(value="不用传")
+    private String goodspicture;
 
 }

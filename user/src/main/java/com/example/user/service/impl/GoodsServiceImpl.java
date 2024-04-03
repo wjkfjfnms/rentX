@@ -254,6 +254,11 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
 
     @Override
     public RE updateByPrimaryKeySelective(UpdateGoodsDTO updateGoodsDTO) {
+        if (updateGoodsDTO.getId() == null){
+            return RE.error().message("商品id为空！");
+        }
+//        修改商品基本信息
+        updateGoodsDTO.setGoodspicture(uploadImageService.upload(updateGoodsDTO.getFile()).get("name"));
         if (goodsMapper.updateByPrimaryKeySelective(updateGoodsDTO) != 0){
             GoodsVO goods = goodsMapper.selectByPrimaryKey(updateGoodsDTO.getId());
             return RE.ok().data("result",goods);
@@ -261,6 +266,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
             return RE.error();
         }
     }
+
 
     @Override
     public RE updateState(Integer id, String state) {
