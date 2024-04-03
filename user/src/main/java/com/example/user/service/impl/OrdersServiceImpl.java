@@ -71,7 +71,7 @@ public class OrdersServiceImpl implements OrdersService{
 //          设置总押金
         createOrderDTO.setDeposit(createOrderDTO.getItemdeposit() * createOrderDTO.getNumber());
 //        设置订单状态
-        createOrderDTO.setState("未付款");
+        createOrderDTO.setState("已付款");
 //        生成订单编号
         StringBuilder randomNum = new StringBuilder();
         for (int i = 0; i < 8; i++) {
