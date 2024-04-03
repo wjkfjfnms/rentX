@@ -13,7 +13,7 @@ public class Combo {
     /**
     * 套餐id
     */
-    @ApiModelProperty(value="套餐id（不用传）")
+    @ApiModelProperty(value="套餐id")
     private Integer id;
 
     /**
