@@ -35,7 +35,8 @@ public class UploadImageServiceImpl implements UploadImageService {
         String newName = uuid + ext;
         //拼接图片上传的路径 url+图片名
         ApplicationHome applicationHome = new ApplicationHome(this.getClass());
-        String pre = applicationHome.getDir().getParentFile().getParentFile().getAbsolutePath() + "\\src\\main\\resources\\static\\images\\";
+//        String pre = applicationHome.getDir().getParentFile().getParentFile().getAbsolutePath() + "\\src\\main\\resources\\static\\images\\";
+        String pre ="D:\\Image\\";
         String path = pre + newName;
         try {
             file.transferTo(new File(path));
