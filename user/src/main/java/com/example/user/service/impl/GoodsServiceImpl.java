@@ -52,18 +52,18 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
 
     @Override
     public RE RecentlyNew() {
-        Goods goods = goodsMapper.RecentlyNew();
-        if (goods != null){
-            return RE.ok().data("result",goods);
+        List<Goods> goodsList = goodsMapper.RecentlyNew();
+        if (goodsList != null){
+            return RE.ok().data("result",goodsList);
         }
         return RE.error();
     }
 
     @Override
     public RE hostGoods() {
-        Goods goods = goodsMapper.hostGoods();
-        if (goods != null){
-            return RE.ok().data("result",goods);
+        List<Goods> goodsList = goodsMapper.hostGoods();
+        if (goodsList != null){
+            return RE.ok().data("result",goodsList);
         }
         return RE.error();
     }
@@ -193,7 +193,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
             return RE.error().message("您的商店已存在同名商品！");
         }
 //        在商品表添加信息
-        uploadGoodsDTO.setGoodspicture(uploadImageService.upload(uploadGoodsDTO.getFile()).get("name"));
+        uploadGoodsDTO.setGoodspicture(uploadImageService.upload(uploadGoodsDTO.getMultipartFile()).get("name"));
         int re = goodsMapper.insertSelective(uploadGoodsDTO);
         if (re == 0){
             return RE.error().message("商品添加失败,请重新上传！");

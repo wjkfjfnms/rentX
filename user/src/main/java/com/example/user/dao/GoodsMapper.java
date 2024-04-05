@@ -12,6 +12,8 @@ import com.example.user.vo.PagePara;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 @Mapper
 public interface GoodsMapper extends BaseMapper<Goods> {
 
@@ -22,10 +24,10 @@ public interface GoodsMapper extends BaseMapper<Goods> {
     int updateFavorites(Integer id,Integer shoucang);
 
 //    最近上新
-    Goods RecentlyNew();
+    List<Goods> RecentlyNew();
 
 //    热销推荐
-    Goods hostGoods();
+    List<Goods> hostGoods();
 
 //    分页查询
     IPage<Goods> findMyGoods(Long uid, Page<PagePara> page, @Param("par")PagePara pagePara);

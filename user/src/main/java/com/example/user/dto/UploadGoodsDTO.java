@@ -66,7 +66,7 @@ public class UploadGoodsDTO {
     private String goodspicture;
 
     @ApiModelProperty(value="商品图片（1张）")
-    private MultipartFile file;
+    private MultipartFile multipartFile;
 
 
     /**
@@ -95,5 +95,7 @@ public class UploadGoodsDTO {
 
     @ApiModelProperty(value = "详情图片列表")
     private List<Goodsdetail> goodsdetailList;
+
+
 
 }

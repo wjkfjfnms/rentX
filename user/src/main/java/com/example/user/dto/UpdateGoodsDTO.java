@@ -70,4 +70,14 @@ public class UpdateGoodsDTO {
     @ApiModelProperty(value="不用传")
     private String goodspicture;
 
+    // 设置 setter 方法
+    public void setMultipartFile(MultipartFile file) {
+        this.file = file;
+    }
+
+    // 设置 getter 方法
+    public MultipartFile getMultipartFile() {
+        return this.file;
+    }
+
 }

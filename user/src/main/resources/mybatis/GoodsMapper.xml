@@ -7,6 +7,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <id column="userId" jdbcType="BIGINT" property="userId" />
     <result column="categoryId" jdbcType="INTEGER" property="categoryId" />
+    <result column="TypeName" jdbcType="VARCHAR" property="category" />
     <result column="brand" jdbcType="VARCHAR" property="brand" />
     <result column="goodsName" jdbcType="VARCHAR" property="goodsname" />
     <result column="description" jdbcType="VARCHAR" property="description" />
@@ -39,12 +40,13 @@
     <!--@mbg.generated-->
     SELECT
     g.id, g.userId, g.categoryId, g.brand, g.goodsName, g.description, g.price, g.buyout, g.buyoutPrice, g.goodsPicture,g.state,g.uploadTime,
-    gd.address , gd.id gdid, q.id qid,q.quality,c.id cid,c.comboName
+    gd.address , gd.id gdid, q.id qid,q.quality,c.id cid,c.comboName, c2.TypeName
     FROM
     goods g
     JOIN goodsdetail gd ON g.id = gd.goodsId
     JOIN quality q ON g.id = q.goodsId
     JOIN combo c ON g.id = c.goodsId
+    JOIN category c2 ON g.categoryId = c2.id
     WHERE
     g.id = #{id,jdbcType=INTEGER}
   </select>
@@ -54,6 +56,7 @@
     <!--@Table goods-->
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="categoryId" jdbcType="INTEGER" property="categoryId" />
+    <result column="TypeName" jdbcType="VARCHAR" property="TypeName" />
     <result column="brand" jdbcType="VARCHAR" property="brand" />
     <result column="goodsName" jdbcType="VARCHAR" property="goodsname" />
     <result column="description" jdbcType="VARCHAR" property="description" />
@@ -67,8 +70,9 @@
 
 <!--  根据用户id查询-->
   <select id="findMyGoods" resultMap="PageResultMap">
-    select *
-    from goods
+    select g.categoryId,g.goodsName,g.brand,g.buyout,g.buyoutPrice,g.description,g.goodsPicture,g.price,c.TypeName
+    from goods g
+    join category c on g.categoryId = c.id
     where userId = #{arg0,jdbcType=BIGINT}
   </select>
 
@@ -81,31 +85,35 @@
 
 <!--最近上新-->
   <select id="RecentlyNew" resultMap="PageResultMap">
-    SELECT g.*
+    SELECT g.*, c2.TypeName AS CategoryTypeName
     FROM goods g
-                 JOIN (
-            SELECT categoryId, MAX(uploadTime) AS latest_upload_time
-            FROM goods
-            WHERE state = 0
-            GROUP BY categoryId
-            ) latest ON g.categoryId = latest.categoryId AND g.uploadTime = latest.latest_upload_time
+           JOIN (
+      SELECT g2.categoryId, MAX(g2.uploadTime) AS latest_upload_time
+      FROM goods g2
+             JOIN category c2 ON g2.categoryId = c2.id
+      WHERE g2.state = 0
+      GROUP BY g2.categoryId
+    ) latest ON g.categoryId = latest.categoryId AND g.uploadTime = latest.latest_upload_time
+           JOIN category c2 ON g.categoryId = c2.id
     ORDER BY g.categoryId, g.uploadTime DESC
-    LIMIT 5
+      LIMIT 5
   </select>
 
 <!--  热销推荐-->
   <select id="hostGoods" resultMap="PageResultMap">
-    select *
-    from goods
+    select g.*, c.TypeName
+    from goods g
+    join category c on g.categoryId = c.id
     where state = '在售'
     ORDER BY favorites DESC
-    LIMIT 8
+    LIMIT 5
   </select>
 
 <!--  模糊查询商品-->
   <select id="searchGoods" resultMap="PageResultMap" parameterType="String">
-    select *
-    from goods
+    select g.categoryId,g.goodsName,g.brand,g.buyoutPrice,g.description,g.goodsPicture,g.price,c.TypeName
+    from goods g
+    join category c on g.categoryId = c.id
     where brand like CONCAT('%', #{arg0}, '%')
     or goodsName like CONCAT('%', #{arg0}, '%')
     or description like CONCAT('%', #{arg0}, '%')

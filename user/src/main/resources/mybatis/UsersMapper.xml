@@ -13,10 +13,12 @@
     <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
     <result column="role" jdbcType="VARCHAR" property="role" />
     <result column="nickname" jdbcType="VARCHAR" property="nickname" />
+    <result column="realname" jdbcType="VARCHAR" property="realname" />
+    <result column="idnumber" jdbcType="VARCHAR" property="idnumber" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    id, email, password, sex, phone, touxiang, createtime, role ,nickname
+    id, email, password, sex, phone, touxiang, createtime, role ,nickname, idnumber, realname
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--@mbg.generated-->
@@ -98,7 +100,8 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.example.user.po.Users">
+  <!--  修改个人信息-->
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.user.dto.UpdateUserDTO" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
     <!--@mbg.generated-->
     update users
     <set>
@@ -117,8 +120,14 @@
       <if test="touxiang != null">
         touxiang = #{touxiang,jdbcType=VARCHAR},
       </if>
-      <if test="createtime != null">
-        createtime = #{createtime,jdbcType=TIMESTAMP},
+      <if test="realname != null">
+        realname = #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="idnumber != null">
+        idnumber = #{idnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null">
+        nickname = #{nickname,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
