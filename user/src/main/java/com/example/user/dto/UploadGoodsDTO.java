@@ -65,8 +65,8 @@ public class UploadGoodsDTO {
     @ApiModelProperty(value="不用传")
     private String goodspicture;
 
-    @ApiModelProperty(value="商品图片（1张）")
-    private MultipartFile multipartFile;
+//    @ApiModelProperty(value="商品图片（1张）")
+//    private MultipartFile multipartFile;
 
 
     /**
@@ -93,8 +93,8 @@ public class UploadGoodsDTO {
     @ApiModelProperty(value="成色列表（99新，98新，95新，92新）")
     private List<Quality> qualityList;
 
-    @ApiModelProperty(value = "详情图片列表")
-    private List<Goodsdetail> goodsdetailList;
+//    @ApiModelProperty(value = "详情图片列表")
+//    private List<Goodsdetail> goodsdetailList;
 
 
 

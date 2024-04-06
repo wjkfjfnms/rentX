@@ -175,7 +175,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
 
 
     @Override
-    public RE insertSelective(UploadGoodsDTO uploadGoodsDTO) {
+    public RE insertSelective(UploadGoodsDTO uploadGoodsDTO,MultipartFile multipartFile,List<MultipartFile> goodsdetailfileList) {
         if (uploadGoodsDTO == null){
             return RE.error().message("参数为空！");
         }
@@ -193,7 +193,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
             return RE.error().message("您的商店已存在同名商品！");
         }
 //        在商品表添加信息
-        uploadGoodsDTO.setGoodspicture(uploadImageService.upload(uploadGoodsDTO.getMultipartFile()).get("name"));
+        uploadGoodsDTO.setGoodspicture(uploadImageService.upload(multipartFile).get("name"));
         int re = goodsMapper.insertSelective(uploadGoodsDTO);
         if (re == 0){
             return RE.error().message("商品添加失败,请重新上传！");
@@ -224,15 +224,15 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
             }
         }
 //        在详情表添加信息
-        if(uploadGoodsDTO.getGoodsdetailList() == null || uploadGoodsDTO.getGoodsdetailList().isEmpty()) {
+        if(goodsdetailfileList == null || goodsdetailfileList.isEmpty()) {
             return RE.error().message("详情图片列表为空");
         }
 
         Goodsdetail goodsDetail = new Goodsdetail();
         goodsDetail.setGoodsid(uploadGoodsDTO.getId());
 //            获取图片地址
-        for (Goodsdetail gd : uploadGoodsDTO.getGoodsdetailList()){
-            goodsDetail.setAddress(uploadImageService.upload(gd.getFile()).get("name"));
+        for (MultipartFile file : goodsdetailfileList){
+            goodsDetail.setAddress(uploadImageService.upload(file).get("name"));
             if (goodsdetailMapper.insertSelective(goodsDetail) == 0){
                 return RE.error().message("详情图片信息上传失败，请重新上传！");
             }
@@ -253,12 +253,14 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     }
 
     @Override
-    public RE updateByPrimaryKeySelective(UpdateGoodsDTO updateGoodsDTO) {
+    public RE updateByPrimaryKeySelective(UpdateGoodsDTO updateGoodsDTO,MultipartFile file) {
         if (updateGoodsDTO.getId() == null){
             return RE.error().message("商品id为空！");
         }
 //        修改商品基本信息
-        updateGoodsDTO.setGoodspicture(uploadImageService.upload(updateGoodsDTO.getFile()).get("name"));
+        if (file != null){
+            updateGoodsDTO.setGoodspicture(uploadImageService.upload(file).get("name"));
+        }
 //        获取类别id
         updateGoodsDTO.setCategoryId(categoryMapper.selectByCategory(updateGoodsDTO.getCategory()).getId());
         if (goodsMapper.updateByPrimaryKeySelective(updateGoodsDTO) != 0){

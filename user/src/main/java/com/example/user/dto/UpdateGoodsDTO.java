@@ -64,20 +64,12 @@ public class UpdateGoodsDTO {
     /**
      * 商品图片（1张）
      */
-    @ApiModelProperty(value="商品图片（1张）")
-    private MultipartFile file;
+//    @ApiModelProperty(value="商品图片（1张）")
+//    private MultipartFile file;
 
     @ApiModelProperty(value="不用传")
     private String goodspicture;
 
-    // 设置 setter 方法
-    public void setMultipartFile(MultipartFile file) {
-        this.file = file;
-    }
 
-    // 设置 getter 方法
-    public MultipartFile getMultipartFile() {
-        return this.file;
-    }
 
 }

@@ -29,13 +29,13 @@ public interface GoodsService extends IService<Goods> {
 
 //    上传商品信息
 //    RE insertSelective(UploadGoodsDTO uploadGoodsDTO,MultipartFile multipartFileDetail, MultipartFile multipartFile);
-    RE insertSelective(UploadGoodsDTO uploadGoodsDTO);
+    RE insertSelective(UploadGoodsDTO uploadGoodsDTO,MultipartFile multipartFile,List<MultipartFile> goodsdetailfileList);
 
 //    根据主键查找商品信息
     RE selectByPrimaryKey(Integer id);
 
 //    修改商品信息
-    RE updateByPrimaryKeySelective(UpdateGoodsDTO updateGoodsDTO);
+    RE updateByPrimaryKeySelective(UpdateGoodsDTO updateGoodsDTO,MultipartFile file);
 
     //   修改商品状态
     RE updateState(Integer id, String state);
