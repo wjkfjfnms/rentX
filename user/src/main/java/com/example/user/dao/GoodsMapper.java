@@ -86,6 +86,10 @@ public interface GoodsMapper extends BaseMapper<Goods> {
 
     IPage<Goods> searchGoods(String keyword,Page<PagePara> page, @Param("par")PagePara pagePara);
 
+    IPage<Goods> UsersearchGoods(String keyword,Page<PagePara> page, @Param("par")PagePara pagePara);
+
+    IPage<Goods> userSelectAllgoods(Page<PagePara> page, @Param("par")PagePara pagePara);
+
 //    Integer findFavorites(Integer id);
 //
 //    int addFavorites(Integer id,Integer f);

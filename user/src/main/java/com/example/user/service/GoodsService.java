@@ -51,8 +51,11 @@ public interface GoodsService extends IService<Goods> {
 
     int updateByPrimaryKey(Goods record);
 
-//    模糊查询商品
+//    模糊查询商品(商家）
     RE searchGoods(PagePara pagePara,String keyword);
+
+//    模糊查询商品(用户）
+    RE UsersearchGoods(PagePara pagePara,String keyword);
 
 //    根据类别id查找商品
     RE selectByCategory(Integer id,PagePara pagePara);
