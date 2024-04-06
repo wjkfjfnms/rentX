@@ -91,11 +91,11 @@
       SELECT g2.categoryId, MAX(g2.uploadTime) AS latest_upload_time
       FROM goods g2
              JOIN category c2 ON g2.categoryId = c2.id
-      WHERE g2.state = 0
+      WHERE g2.state = '在售'
       GROUP BY g2.categoryId
     ) latest ON g.categoryId = latest.categoryId AND g.uploadTime = latest.latest_upload_time
            JOIN category c2 ON g.categoryId = c2.id
-    ORDER BY g.categoryId, g.uploadTime DESC
+    ORDER BY g.uploadTime DESC
       LIMIT 5
   </select>
 
@@ -104,7 +104,7 @@
     select g.*, c.TypeName
     from goods g
     join category c on g.categoryId = c.id
-    where state = '在售'
+    where g.state = '在售'
     ORDER BY favorites DESC
     LIMIT 5
   </select>
@@ -114,9 +114,9 @@
     select g.categoryId,g.goodsName,g.brand,g.buyoutPrice,g.description,g.goodsPicture,g.price,c.TypeName
     from goods g
     join category c on g.categoryId = c.id
-    where brand like CONCAT('%', #{arg0}, '%')
-    or goodsName like CONCAT('%', #{arg0}, '%')
-    or description like CONCAT('%', #{arg0}, '%')
+    where g.brand like CONCAT('%', #{arg0}, '%')
+    or g.goodsName like CONCAT('%', #{arg0}, '%')
+    or g.description like CONCAT('%', #{arg0}, '%')
   </select>
 
 

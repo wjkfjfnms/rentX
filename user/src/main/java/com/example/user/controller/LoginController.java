@@ -67,7 +67,7 @@ public class LoginController {
     }
 
     @ApiOperation(value = "获取当前登录用户的信息接口")
-    @PostMapping("code/getUsersDetails")
+    @GetMapping("code/getUsersDetails")
     public RE getUsersDetails(){
         return RE.ok().data("Users",commonService.getUsersDetails());
     }
