@@ -344,4 +344,22 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         }
     }
 
+    @Override
+    public RE selectByCategory( Integer id ,PagePara pagePara) {
+        // 创建 Page 对象，指定当前页和每页显示数量
+        Page<PagePara> page = new Page<>(pagePara.getNowPage() == null ? 1 : pagePara.getNowPage(), pagePara.getOnePageCount() == null ? 3 : pagePara.getOnePageCount());
+        IPage<Goods> queryResult =goodsMapper.selectByCategory(id,page, pagePara);
+        // 根据查询结果构建 PagePara 对象，包括当前页、每页数量、总记录数和总页数
+        PagePara pageResult = new PagePara(queryResult.getCurrent(), queryResult.getSize(), queryResult.getTotal(), queryResult.getPages());
+        // 构建 PageResultS 对象，设置查询结果列表和分页信息
+        PageResultS<Goods> result = new PageResultS<>();
+        result.setList(queryResult.getRecords());
+        result.setPage(pageResult);
+        if (result != null){
+            return RE.ok().data("result",result);
+        }else {
+            return RE.error();
+        }
+    }
+
 }

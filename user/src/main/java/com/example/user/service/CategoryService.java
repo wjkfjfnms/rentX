@@ -1,8 +1,10 @@
 package com.example.user.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.user.po.Category;
+import com.example.user.vo.PagePara;
 import com.example.user.vo.RE;
-
+import org.springframework.data.repository.query.Param;
 
 
 public interface CategoryService{

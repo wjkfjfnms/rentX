@@ -38,6 +38,9 @@ public interface GoodsMapper extends BaseMapper<Goods> {
 //    查找同名商品
     GoodsVO selectByGoodsName(UploadGoodsDTO uploadGoodsDTO);
 
+    //    根据分类查询商品
+    IPage<Goods> selectByCategory(Integer id, Page<PagePara> page, @Param("par")PagePara pagePara);
+
     /**
      * delete by primary key
      * @param id primaryKey

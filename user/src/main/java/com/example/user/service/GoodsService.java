@@ -54,4 +54,7 @@ public interface GoodsService extends IService<Goods> {
 //    模糊查询商品
     RE searchGoods(PagePara pagePara,String keyword);
 
+//    根据类别id查找商品
+    RE selectByCategory(Integer id,PagePara pagePara);
+
 }

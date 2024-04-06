@@ -1,13 +1,20 @@
 package com.example.user.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.user.po.Category;
+import com.example.user.vo.PagePara;
+import com.example.user.vo.RE;
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
 @Mapper
 public interface CategoryMapper extends BaseMapper {
+
+
 
     List<Category> selectAll();
 
