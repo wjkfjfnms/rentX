@@ -273,4 +273,17 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
+  <select id="findOrderByNum" resultMap="myOrderMap">
+    SELECT o.id AS orderId, o.ordernum AS orderNumber, o.price, o.deposit, o.remark, o.createtime AS createTime, o.status,
+    oi.number, oi.leaseTime, oi.itemPrice, oi.itemDeposit,
+    c.comboName, q.quality, u.nickname AS customerNickname,
+    a.consignee, a.phone, a.zip, a.address
+    FROM orders o
+    INNER JOIN orderitems oi ON o.id = oi.orderId
+    LEFT JOIN combo c ON oi.comboId = c.id
+    LEFT JOIN quality q ON oi.qualityId = q.id
+    INNER JOIN users u ON o.businessId = u.id
+    INNER JOIN address a ON o.addressId = a.id
+    WHERE o.ordernum like CONCAT('%', #{arg0}, '%')
+  </select>
 </mapper>

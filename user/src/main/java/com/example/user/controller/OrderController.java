@@ -54,4 +54,9 @@ public class OrderController {
         return ordersService.updateOrderStatus(updateOrderStatusDTO);
     }
 
+    @ApiOperation(value = "模糊查询订单")
+    @GetMapping("/findOrderByNum")
+    public RE findOrderByNum(String orderNum,PagePara pagePara){
+        return ordersService.findOrderByNum(orderNum,pagePara);
+    }
 }

@@ -75,4 +75,7 @@ public interface OrdersMapper extends BaseMapper {
 //   修改订单状态
     int updateOrderStatus(UpdateOrderStatusDTO updateOrderStatusDTO);
 
+// 模糊查询订单
+    IPage<OrderVO> findOrderByNum(String orderNum,Page<PagePara> page, @Param("par")PagePara pagePara);
+
 }

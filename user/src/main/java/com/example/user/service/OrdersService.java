@@ -24,6 +24,9 @@ public interface OrdersService{
 //    分页查询我的订单,返回orderitems表的id
     RE findMyOrder(PagePara pagePara);
 
+//    根据订单编号模糊查询订单
+    RE findOrderByNum(String orderNum,PagePara pagePara);
+
     int updateByPrimaryKeySelective(Orders record);
 
 //    修改订单地址信息
